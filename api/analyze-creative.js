@@ -84,7 +84,16 @@ function sanitizeAnalysis(raw) {
 
 function parseAiContent(content) {
   const cleaned = String(content || "").replace(/```json|```/g, "").trim();
-  return JSON.parse(cleaned);
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    const first = cleaned.indexOf("{");
+    const last = cleaned.lastIndexOf("}");
+    if (first >= 0 && last > first) {
+      return JSON.parse(cleaned.slice(first, last + 1));
+    }
+    throw new Error("Resposta da IA nao contem JSON completo.");
+  }
 }
 
 export default async function handler(req, res) {
@@ -117,11 +126,12 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model,
         temperature: 0.35,
-        max_tokens: 900,
+        max_tokens: 1600,
+        response_format: { type: "json_object" },
         messages: [
           {
             role: "system",
-            content: "Voce e o motor estrategico do Hydra | Strategy. Analise briefing e criativo antes do trafego pago. Responda somente JSON valido com chaves: hydraScore, attention, clarity, offer, cta, trust, friction, audienceFit, wasteRisk, verdict, suggestedBudget, mainBottleneck, diagnosis, improvements, actionPlan, improvedHeadline, improvedBody, improvedCta. Scores 0-100. verdict deve ser escalar, testar ou revisar. suggestedBudget deve ser pratico e cauteloso, sem prometer performance."
+            content: "Voce e o motor estrategico do Hydra | Strategy. Analise briefing e criativo antes do trafego pago. Responda somente JSON valido, sem markdown. Use strings curtas. Chaves obrigatorias: hydraScore, attention, clarity, offer, cta, trust, friction, audienceFit, wasteRisk, verdict, suggestedBudget, mainBottleneck, diagnosis, improvements, actionPlan, improvedHeadline, improvedBody, improvedCta. Scores 0-100. verdict: escalar, testar ou revisar. improvements e actionPlan devem ter no maximo 4 itens."
           },
           {
             role: "user",

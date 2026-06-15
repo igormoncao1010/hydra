@@ -36,6 +36,8 @@ Configure:
 
 O botao `Analisar com IA` chama a rota serverless `api/analyze-creative.js`. Em producao, essa rota usa `HF_TOKEN` configurado nas Environment Variables da Vercel. Nao use `NEXT_PUBLIC_` no nome da chave, porque variaveis publicas ficam expostas no navegador.
 
+A rota pede resposta JSON estruturada para reduzir falhas de parsing. Se o modelo devolver JSON incompleto, o Hydra mostra o motivo do fallback no relatorio.
+
 A analise gera:
 
 - Hydra Score;
