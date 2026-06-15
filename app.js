@@ -35,7 +35,8 @@ const state = {
   visualActive: new Set(),
   visualAttempts: [],
   liveStep: 0,
-  liveFailed: 0
+  liveFailed: 0,
+  aiAnalysis: null
 };
 
 const $ = (id) => document.getElementById(id);
@@ -66,6 +67,7 @@ function makeAgent(id) {
   const politicalInterest = clamp(normalish() + rand(-0.2, 0.25));
   const mediaTrust = clamp(normalish() + rand(-0.25, 0.25));
   const conflictTolerance = clamp(normalish() + rand(-0.2, 0.2));
+  const adFatigue = clamp(normalish() + rand(-0.18, 0.22));
   const economicAxis = clamp(0.5 + regionBias + (income - 0.5) * 0.38 + rand(-0.34, 0.34));
   const customsAxis = clamp(0.5 + religionBias + (age - 38) / 150 + rand(-0.28, 0.28));
   const sponsorSensitivity = clamp(income * 0.35 + politicalInterest * 0.3 + rand(0, 0.35));
@@ -85,6 +87,7 @@ function makeAgent(id) {
     politicalInterest,
     mediaTrust,
     conflictTolerance,
+    adFatigue,
     economicAxis,
     customsAxis,
     sponsorSensitivity,
@@ -171,6 +174,17 @@ function articleFromControls() {
 function creativeInput() {
   return {
     campaign: $("articleTitle").value.trim(),
+    niche: $("briefNiche").value.trim(),
+    channel: $("briefChannel").value.trim(),
+    objective: $("briefObjective").value.trim(),
+    ticket: $("briefTicket").value.trim(),
+    product: $("briefProduct").value.trim(),
+    audience: $("briefAudience").value.trim(),
+    stage: $("briefStage").value.trim(),
+    plannedBudget: $("briefBudget").value.trim(),
+    objection: $("briefObjection").value.trim(),
+    proof: $("briefProof").value.trim(),
+    guarantee: $("briefGuarantee").value.trim(),
     headline: $("creativeHeadline").value.trim(),
     body: $("creativeBody").value.trim(),
     offer: $("creativeOffer").value.trim(),
@@ -183,33 +197,58 @@ function clampScore(value) {
 }
 
 function heuristicCreativeAnalysis(input) {
-  const all = `${input.headline} ${input.body} ${input.offer} ${input.cta}`.toLowerCase();
+  const all = `${input.headline} ${input.body} ${input.offer} ${input.cta} ${input.product} ${input.audience} ${input.objection} ${input.proof} ${input.guarantee}`.toLowerCase();
   const hasNumber = /\d/.test(all);
   const hasUrgency = /(hoje|agora|limitad|ultim|gratis|gratuita|bonus|desconto)/i.test(all);
   const hasPain = /(dor|problema|dificuldade|perder|cansad|sem tempo|caro|risco)/i.test(all);
+  const hasProof = Boolean(input.proof) || /(depoimento|case|clientes|antes|depois|resultado|anos|garantia)/i.test(all);
+  const hasAudience = Boolean(input.audience) || Boolean(input.niche);
+  const hasRiskReducer = Boolean(input.guarantee) || /(garantia|gratis|sem compromisso|avaliacao|teste)/i.test(all);
   const hasAction = /(clique|chame|agende|compre|solicite|fale|baixe|acesse)/i.test(input.cta);
   const textLength = all.length;
-  const clarity = clampScore(45 + (input.headline.length > 18 ? 14 : 0) + (input.cta.length > 8 ? 16 : 0) - (textLength > 720 ? 18 : 0));
-  const offer = clampScore(38 + (hasNumber ? 16 : 0) + (hasUrgency ? 18 : 0) + (input.offer.length > 18 ? 14 : 0));
-  const attention = clampScore(42 + (hasPain ? 18 : 0) + (hasUrgency ? 12 : 0) + (input.headline.length > 45 ? 8 : 0));
+  const clarity = clampScore(40 + (input.headline.length > 18 ? 12 : 0) + (input.cta.length > 8 ? 12 : 0) + (hasAudience ? 10 : 0) - (textLength > 900 ? 18 : 0));
+  const offer = clampScore(34 + (hasNumber ? 14 : 0) + (hasUrgency ? 14 : 0) + (input.offer.length > 18 ? 12 : 0) + (hasRiskReducer ? 10 : 0));
+  const attention = clampScore(38 + (hasPain ? 16 : 0) + (hasUrgency ? 10 : 0) + (input.headline.length > 45 ? 8 : 0) + (hasAudience ? 8 : 0));
   const cta = clampScore(35 + (hasAction ? 30 : 0) + (input.cta.length > 12 ? 14 : 0));
-  const friction = clampScore(100 - ((clarity + offer + cta) / 3));
-  const audienceFit = clampScore((attention + clarity + offer) / 3);
+  const trust = clampScore(35 + (hasProof ? 22 : 0) + (hasRiskReducer ? 16 : 0) + (input.ticket ? 6 : 0));
+  const friction = clampScore(100 - ((clarity + offer + cta + trust) / 4));
+  const audienceFit = clampScore((attention + clarity + offer + (hasAudience ? 80 : 45)) / 4);
+  const hydraScore = clampScore(attention * 0.16 + clarity * 0.18 + offer * 0.18 + cta * 0.13 + trust * 0.15 + audienceFit * 0.14 + (100 - friction) * 0.06);
+  const bottlenecks = [
+    ["clareza", clarity],
+    ["oferta", offer],
+    ["CTA", cta],
+    ["confianca", trust],
+    ["aderencia", audienceFit]
+  ].sort((a, b) => a[1] - b[1]);
 
   return {
+    source: "heuristic",
+    hydraScore,
     attention,
     clarity,
     offer,
     cta,
+    trust,
     friction,
     audienceFit,
-    verdict: (clarity + offer + cta + attention) / 4 >= 72 ? "escalar" : (clarity + offer + cta + attention) / 4 >= 52 ? "testar" : "revisar",
-    diagnosis: "Analise local: usada quando a IA nao respondeu. O criativo foi pontuado por clareza, promessa, urgencia, dor e CTA.",
+    wasteRisk: clampScore(100 - hydraScore + friction * 0.25),
+    verdict: hydraScore >= 78 ? "escalar" : hydraScore >= 58 ? "testar" : "revisar",
+    suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Nao investir ainda. Revisar antes de comprar midia.",
+    mainBottleneck: bottlenecks[0][0],
+    diagnosis: "Analise local: o criativo foi pontuado por briefing, clareza, promessa, oferta, prova, redutor de risco, publico e CTA.",
     improvements: [
       "Deixe a promessa mais especifica e mensuravel.",
       "Inclua um beneficio concreto no inicio da headline.",
       "Troque CTA generico por uma acao simples e direta.",
-      "Reduza palavras vagas e explique o ganho principal em uma frase."
+      "Responda a objecao principal antes do clique.",
+      "Inclua prova social ou garantia se o publico ainda estiver frio."
+    ],
+    actionPlan: [
+      "Reescrever headline com promessa direta.",
+      "Fortalecer oferta ou reduzir risco percebido.",
+      "Ajustar CTA ao objetivo da campanha.",
+      "Rodar simulacao apos aplicar a versao sugerida."
     ],
     improvedHeadline: input.headline || "Resolva seu problema com uma oferta clara hoje",
     improvedBody: input.body || "Apresente a dor, mostre o beneficio principal, reduza risco e convide para uma acao simples.",
@@ -223,11 +262,17 @@ function parseAiContent(content) {
 }
 
 async function analyzeCreativeWithHF() {
-  const model = $("hfModel").value.trim() || "openai/gpt-oss-120b:cerebras";
   const input = creativeInput();
+
+  if (!input.headline && !input.body && !input.offer && !input.cta) {
+    $("aiStatus").textContent = "Preencha o criativo antes de analisar.";
+    $("aiOutput").innerHTML = `<h3>Nenhum criativo informado</h3><p>Cole pelo menos headline, texto, oferta ou CTA para o Hydra diagnosticar.</p>`;
+    return;
+  }
 
   $("aiStatus").textContent = "Analisando criativo...";
   $("analyzeCreativeButton").disabled = true;
+  $("aiOutput").innerHTML = `<h3>Analise em andamento</h3><p>O Hydra esta consultando o backend e preparando scores, melhorias e veredito.</p>`;
 
   try {
     let analysis;
@@ -236,13 +281,13 @@ async function analyzeCreativeWithHF() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ model, creative: input })
+      body: JSON.stringify({ creative: input })
     });
 
     if (!response.ok) throw new Error(`API ${response.status}`);
     analysis = await response.json();
     $("aiStatus").textContent = analysis.source === "heuristic"
-      ? "API sem HF_TOKEN: analise local do servidor gerada."
+      ? "Analise local do servidor gerada. Verifique HF_TOKEN na Vercel se esperava IA."
       : "Analise de IA concluida pelo backend.";
 
     applyCreativeAnalysis(analysis);
@@ -257,42 +302,58 @@ async function analyzeCreativeWithHF() {
 
 function applyCreativeAnalysis(raw) {
   const analysis = {
+    source: raw.source || "huggingface",
+    hydraScore: clampScore(raw.hydraScore),
     attention: clampScore(raw.attention),
     clarity: clampScore(raw.clarity),
     offer: clampScore(raw.offer),
     cta: clampScore(raw.cta),
+    trust: clampScore(raw.trust),
     friction: clampScore(raw.friction),
     audienceFit: clampScore(raw.audienceFit),
+    wasteRisk: clampScore(raw.wasteRisk),
     verdict: ["escalar", "testar", "revisar"].includes(raw.verdict) ? raw.verdict : "testar",
+    suggestedBudget: raw.suggestedBudget || "",
+    mainBottleneck: raw.mainBottleneck || "",
     diagnosis: raw.diagnosis || "Diagnostico indisponivel.",
     improvements: Array.isArray(raw.improvements) ? raw.improvements.slice(0, 6) : [],
+    actionPlan: Array.isArray(raw.actionPlan) ? raw.actionPlan.slice(0, 6) : [],
     improvedHeadline: raw.improvedHeadline || "",
     improvedBody: raw.improvedBody || "",
     improvedCta: raw.improvedCta || ""
   };
 
+  state.aiAnalysis = analysis;
   $("rightPraise").value = analysis.offer / 100;
   $("contextQuality").value = analysis.clarity / 100;
   $("provocation").value = analysis.friction / 100;
   $("localRelevance").value = analysis.audienceFit / 100;
   renderAiAnalysis(analysis);
+  $("reportOutput").innerHTML = generateReportHtml();
 }
 
 function renderAiAnalysis(analysis) {
   $("aiOutput").innerHTML = `
     <h3>Diagnostico Hydra</h3>
     <div class="aiScoreGrid">
+      <div><span>Hydra Score</span><strong>${analysis.hydraScore}</strong></div>
       <div><span>Atencao</span><strong>${analysis.attention}</strong></div>
       <div><span>Clareza</span><strong>${analysis.clarity}</strong></div>
       <div><span>Oferta</span><strong>${analysis.offer}</strong></div>
       <div><span>CTA</span><strong>${analysis.cta}</strong></div>
+      <div><span>Confianca</span><strong>${analysis.trust}</strong></div>
       <div><span>Atrito</span><strong>${analysis.friction}</strong></div>
       <div><span>Aderencia</span><strong>${analysis.audienceFit}</strong></div>
+      <div><span>Risco verba</span><strong>${analysis.wasteRisk}</strong></div>
       <div><span>Veredito</span><strong>${analysis.verdict.toUpperCase()}</strong></div>
     </div>
     <p>${escapeHtml(analysis.diagnosis)}</p>
+    <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
+    <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
     <h3>Melhorias sugeridas</h3>
     <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    <h3>Plano de acao</h3>
+    <ul>${analysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     <h3>Versao sugerida</h3>
     <p><strong>Headline:</strong> ${escapeHtml(analysis.improvedHeadline)}</p>
     <p><strong>Texto:</strong> ${escapeHtml(analysis.improvedBody)}</p>
@@ -304,36 +365,43 @@ function reactionFor(agent, article) {
   const affordabilityFit = 1 - Math.abs(agent.income - article.offerStrength * 0.72);
   const lifestyleFit = 1 - Math.abs(agent.customsAxis - article.audienceFit);
   const clarityTrust = agent.mediaTrust * article.messageClarity;
-  const purchaseCuriosity = agent.politicalInterest * 0.18 + agent.education * 0.08;
+  const purchaseCuriosity = agent.politicalInterest * 0.1 + agent.education * 0.05;
+  const adResistance = agent.adFatigue * 0.22 + (1 - agent.mediaTrust) * 0.08;
   const irritation = clamp(
-    article.friction * 0.38 +
-      (1 - article.messageClarity) * 0.22 +
-      (1 - article.audienceFit) * 0.18 +
-      (1 - affordabilityFit) * 0.12 -
-      clarityTrust * 0.18
+    article.friction * 0.42 +
+      (1 - article.messageClarity) * 0.24 +
+      (1 - article.audienceFit) * 0.2 +
+      (1 - affordabilityFit) * 0.14 +
+      adResistance -
+      clarityTrust * 0.12
   );
   const approval = clamp(
-    article.offerStrength * 0.24 +
-      article.messageClarity * 0.22 +
-      article.audienceFit * 0.22 +
-      affordabilityFit * 0.16 +
-      lifestyleFit * 0.1 +
+    article.offerStrength * 0.16 +
+      article.messageClarity * 0.18 +
+      article.audienceFit * 0.18 +
+      affordabilityFit * 0.13 +
+      lifestyleFit * 0.08 +
       purchaseCuriosity -
-      article.friction * 0.14
+      article.friction * 0.18 -
+      agent.adFatigue * 0.14
   );
 
-  if (approval - irritation > 0.18) return "positive";
-  if (irritation - approval > 0.12) return "negative";
+  if (approval - irritation > 0.26) return "positive";
+  if (irritation - approval > 0.1) return "negative";
   return "neutral";
 }
 
 function transmissionProbability(source, target, article, graph) {
-  const tieStrength = 0.025 + Math.min(graph[source.id].length, graph[target.id].length) / 900;
-  const sourceBoost = 0.05 + source.influence * 0.22;
-  const interest = 0.05 + target.politicalInterest * 0.16 + article.audienceFit * 0.14;
-  const emotion = source.reaction === "negative" ? article.friction * 0.11 : article.offerStrength * 0.08;
-  const trust = target.mediaTrust * article.messageClarity * 0.08;
-  return clamp(tieStrength + sourceBoost + interest + emotion + trust, 0.01, 0.62);
+  const tieStrength = 0.01 + Math.min(graph[source.id].length, graph[target.id].length) / 1800;
+  const sourceBoost = source.influence * 0.1;
+  const interest = target.politicalInterest * 0.08 + article.audienceFit * 0.07;
+  const creativePull = article.offerStrength * 0.045 + article.messageClarity * 0.04;
+  const emotion = source.reaction === "negative" ? article.friction * 0.055 : creativePull;
+  const trust = target.mediaTrust * article.messageClarity * 0.04;
+  const resistance = target.adFatigue * 0.11 + article.friction * 0.05;
+  const reactionMultiplier = source.reaction === "positive" ? 1 : source.reaction === "negative" ? 0.72 : 0.48;
+  const raw = (tieStrength + sourceBoost + interest + emotion + trust - resistance) * reactionMultiplier;
+  return clamp(raw, 0.002, 0.28);
 }
 
 function selectSeeds(agents, count) {
@@ -489,6 +557,14 @@ async function playLiveCascade(article, seedCount) {
 
 async function runMonteCarlo() {
   if (state.running) return;
+
+  const input = creativeInput();
+  if (!state.aiAnalysis && !input.headline && !input.body && !input.offer && !input.cta) {
+    $("runStatus").textContent = "Preencha o criativo ou clique em Analisar com IA antes de rodar.";
+    $("reportOutput").innerHTML = "Preencha o criativo, clique em Analisar com IA e depois rode a simulacao.";
+    return;
+  }
+
   setRunning(true);
 
   const size = Number($("populationSize").value);
@@ -957,7 +1033,8 @@ function generateReportHtml() {
 
 function generateReportHtml() {
   const run = state.lastRun;
-  if (!run) return "Rode uma simulacao para gerar o relatorio.";
+  if (!run && state.aiAnalysis) return generateAiOnlyReportHtml();
+  if (!run) return "Preencha o criativo, clique em Analisar com IA e depois rode a simulacao.";
 
   const network = getNetworkStats(state.graph);
   const population = getPopulationStats(state.agents);
@@ -990,6 +1067,24 @@ function generateReportHtml() {
       <div><span>Rejeicao</span><strong>${pct(rejectionRate)}</strong></div>
       <div><span>Veredito</span><strong>${verdict.toUpperCase()}</strong></div>
     </section>
+
+    ${state.aiAnalysis ? `
+      <h2>Diagnostico de IA</h2>
+      <section class="reportSignal">
+        <div><strong>Hydra Score</strong><span>${state.aiAnalysis.hydraScore}/100</span></div>
+        <div><strong>Atencao</strong><span>${state.aiAnalysis.attention}/100</span></div>
+        <div><strong>Clareza</strong><span>${state.aiAnalysis.clarity}/100</span></div>
+        <div><strong>Oferta</strong><span>${state.aiAnalysis.offer}/100</span></div>
+        <div><strong>Confianca</strong><span>${state.aiAnalysis.trust}/100</span></div>
+        <div><strong>Risco verba</strong><span>${state.aiAnalysis.wasteRisk}/100</span></div>
+      </section>
+      <p>${escapeHtml(state.aiAnalysis.diagnosis)}</p>
+      <p><strong>Gargalo principal:</strong> ${escapeHtml(state.aiAnalysis.mainBottleneck || "-")}</p>
+      <p><strong>Verba sugerida:</strong> ${escapeHtml(state.aiAnalysis.suggestedBudget || "-")}</p>
+      <ul>${state.aiAnalysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+      <h2>Plano de Acao</h2>
+      <ul>${state.aiAnalysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    ` : ""}
 
     <section class="reportSignal">
       <div><strong>Sinal de oferta</strong><span>${run.article.offerStrength >= 0.7 ? "Oferta forte: boa chance de capturar atencao." : "Oferta ainda fraca: promessa pode precisar de reforco."}</span></div>
@@ -1083,6 +1178,100 @@ function generateReportHtml() {
   `;
 }
 
+function generateAiOnlyReportHtml() {
+  const analysis = state.aiAnalysis;
+  const input = creativeInput();
+  const timestamp = new Date().toLocaleString("pt-BR");
+  const mediaGuidance = analysis.verdict === "escalar"
+    ? "O criativo tem bons sinais antes da compra de midia. Ainda assim, a recomendacao e validar com verba controlada e acompanhar os primeiros indicadores reais."
+    : analysis.verdict === "testar"
+      ? "O criativo tem potencial, mas nao deve receber verba alta ainda. Rode teste pequeno ou revise os pontos fracos antes de escalar."
+      : "O criativo ainda nao deveria receber verba. Ajuste promessa, oferta, clareza ou CTA antes de abrir campanha.";
+
+  return `
+    <section class="reportCover">
+      <div>
+        <h1>Hydra | Strategy Report</h1>
+        <p><strong>Criativo analisado:</strong> ${escapeHtml(input.campaign || "Sem nome de campanha")}</p>
+        <p><strong>Gerado em:</strong> ${timestamp}</p>
+      </div>
+      <p>Diagnostico pre-trafego gerado antes da simulacao. Esta etapa avalia se a estrategia criativa merece entrar em teste pago ou se precisa ser revisada primeiro.</p>
+    </section>
+
+    <section class="reportKpis">
+      <div><span>Hydra Score</span><strong>${analysis.hydraScore}</strong></div>
+      <div><span>Atencao</span><strong>${analysis.attention}</strong></div>
+      <div><span>Clareza</span><strong>${analysis.clarity}</strong></div>
+      <div><span>Veredito</span><strong>${analysis.verdict.toUpperCase()}</strong></div>
+    </section>
+
+    <section class="reportSignal">
+      <div><strong>Oferta</strong><span>${analysis.offer}/100</span></div>
+      <div><strong>CTA</strong><span>${analysis.cta}/100</span></div>
+      <div><strong>Confianca</strong><span>${analysis.trust}/100</span></div>
+      <div><strong>Atrito</strong><span>${analysis.friction}/100</span></div>
+      <div><strong>Aderencia</strong><span>${analysis.audienceFit}/100</span></div>
+      <div><strong>Risco de verba</strong><span>${analysis.wasteRisk}/100</span></div>
+    </section>
+
+    <h2>1. Briefing Comercial</h2>
+    <table class="reportTable">
+      <tbody>
+        <tr><th>Nicho</th><td>${escapeHtml(input.niche || "-")}</td></tr>
+        <tr><th>Canal</th><td>${escapeHtml(input.channel || "-")}</td></tr>
+        <tr><th>Objetivo</th><td>${escapeHtml(input.objective || "-")}</td></tr>
+        <tr><th>Produto/servico</th><td>${escapeHtml(input.product || "-")}</td></tr>
+        <tr><th>Ticket medio</th><td>${escapeHtml(input.ticket || "-")}</td></tr>
+        <tr><th>Publico-alvo</th><td>${escapeHtml(input.audience || "-")}</td></tr>
+        <tr><th>Estagio do publico</th><td>${escapeHtml(input.stage || "-")}</td></tr>
+        <tr><th>Verba planejada</th><td>${escapeHtml(input.plannedBudget || "-")}</td></tr>
+        <tr><th>Objecao principal</th><td>${escapeHtml(input.objection || "-")}</td></tr>
+        <tr><th>Prova social</th><td>${escapeHtml(input.proof || "-")}</td></tr>
+        <tr><th>Garantia</th><td>${escapeHtml(input.guarantee || "-")}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Criativo Enviado</h2>
+    <table class="reportTable">
+      <tbody>
+        <tr><th>Headline</th><td>${escapeHtml(input.headline || "-")}</td></tr>
+        <tr><th>Texto</th><td>${escapeHtml(input.body || "-")}</td></tr>
+        <tr><th>Oferta</th><td>${escapeHtml(input.offer || "-")}</td></tr>
+        <tr><th>CTA</th><td>${escapeHtml(input.cta || "-")}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Diagnostico</h2>
+    <p>${escapeHtml(analysis.diagnosis)}</p>
+    <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
+    <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
+
+    <h2>4. Melhorias Sugeridas</h2>
+    <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+
+    <h2>5. Plano de Acao</h2>
+    <ul>${analysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+
+    <h2>6. Versao Sugerida</h2>
+    <table class="reportTable">
+      <tbody>
+        <tr><th>Headline sugerida</th><td>${escapeHtml(analysis.improvedHeadline || "-")}</td></tr>
+        <tr><th>Texto sugerido</th><td>${escapeHtml(analysis.improvedBody || "-")}</td></tr>
+        <tr><th>CTA sugerido</th><td>${escapeHtml(analysis.improvedCta || "-")}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>7. Recomendacao Antes da Verba</h2>
+    <section class="reportVerdict">
+      <p><strong>Veredito:</strong> ${analysis.verdict.toUpperCase()}.</p>
+      <p>${mediaGuidance}</p>
+    </section>
+
+    <h2>8. Proxima Acao</h2>
+    <p>Depois de ajustar o criativo, clique em Rodar para simular a propagacao sintetica e complementar este relatorio com alcance organico, rejeicao, indiferenca e risco de desperdicio.</p>
+  `;
+}
+
 function drawNetwork() {
   const canvas = $("networkCanvas");
   const ctx = canvas.getContext("2d");
@@ -1154,4 +1343,6 @@ $("downloadReportButton").addEventListener("click", () => {
   window.print();
 });
 window.addEventListener("resize", drawNetwork);
-runMonteCarlo();
+updateProgress(0, Number($("runs").value));
+updateLiveStats(0, 0);
+drawNetwork();

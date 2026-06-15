@@ -3,35 +3,52 @@ function clampScore(value) {
 }
 
 function heuristicCreativeAnalysis(input) {
-  const all = `${input.headline || ""} ${input.body || ""} ${input.offer || ""} ${input.cta || ""}`.toLowerCase();
+  const all = `${input.headline || ""} ${input.body || ""} ${input.offer || ""} ${input.cta || ""} ${input.product || ""} ${input.audience || ""} ${input.objection || ""} ${input.proof || ""} ${input.guarantee || ""}`.toLowerCase();
   const hasNumber = /\d/.test(all);
   const hasUrgency = /(hoje|agora|limitad|ultim|gratis|gratuita|bonus|desconto)/i.test(all);
   const hasPain = /(dor|problema|dificuldade|perder|cansad|sem tempo|caro|risco)/i.test(all);
+  const hasProof = Boolean(input.proof) || /(depoimento|case|clientes|antes|depois|resultado|anos|garantia)/i.test(all);
+  const hasAudience = Boolean(input.audience) || Boolean(input.niche);
+  const hasRiskReducer = Boolean(input.guarantee) || /(garantia|gratis|sem compromisso|avaliacao|teste)/i.test(all);
   const hasAction = /(clique|chame|agende|compre|solicite|fale|baixe|acesse)/i.test(input.cta || "");
   const textLength = all.length;
-  const clarity = clampScore(45 + ((input.headline || "").length > 18 ? 14 : 0) + ((input.cta || "").length > 8 ? 16 : 0) - (textLength > 720 ? 18 : 0));
-  const offer = clampScore(38 + (hasNumber ? 16 : 0) + (hasUrgency ? 18 : 0) + ((input.offer || "").length > 18 ? 14 : 0));
-  const attention = clampScore(42 + (hasPain ? 18 : 0) + (hasUrgency ? 12 : 0) + ((input.headline || "").length > 45 ? 8 : 0));
+  const clarity = clampScore(40 + ((input.headline || "").length > 18 ? 12 : 0) + ((input.cta || "").length > 8 ? 12 : 0) + (hasAudience ? 10 : 0) - (textLength > 900 ? 18 : 0));
+  const offer = clampScore(34 + (hasNumber ? 14 : 0) + (hasUrgency ? 14 : 0) + ((input.offer || "").length > 18 ? 12 : 0) + (hasRiskReducer ? 10 : 0));
+  const attention = clampScore(38 + (hasPain ? 16 : 0) + (hasUrgency ? 10 : 0) + ((input.headline || "").length > 45 ? 8 : 0) + (hasAudience ? 8 : 0));
   const cta = clampScore(35 + (hasAction ? 30 : 0) + ((input.cta || "").length > 12 ? 14 : 0));
-  const friction = clampScore(100 - ((clarity + offer + cta) / 3));
-  const audienceFit = clampScore((attention + clarity + offer) / 3);
-  const average = (clarity + offer + cta + attention) / 4;
+  const trust = clampScore(35 + (hasProof ? 22 : 0) + (hasRiskReducer ? 16 : 0) + (input.ticket ? 6 : 0));
+  const friction = clampScore(100 - ((clarity + offer + cta + trust) / 4));
+  const audienceFit = clampScore((attention + clarity + offer + (hasAudience ? 80 : 45)) / 4);
+  const hydraScore = clampScore(attention * 0.16 + clarity * 0.18 + offer * 0.18 + cta * 0.13 + trust * 0.15 + audienceFit * 0.14 + (100 - friction) * 0.06);
+  const bottlenecks = [["clareza", clarity], ["oferta", offer], ["CTA", cta], ["confianca", trust], ["aderencia", audienceFit]].sort((a, b) => a[1] - b[1]);
 
   return {
     source: "heuristic",
+    hydraScore,
     attention,
     clarity,
     offer,
     cta,
+    trust,
     friction,
     audienceFit,
-    verdict: average >= 72 ? "escalar" : average >= 52 ? "testar" : "revisar",
+    wasteRisk: clampScore(100 - hydraScore + friction * 0.25),
+    verdict: hydraScore >= 78 ? "escalar" : hydraScore >= 58 ? "testar" : "revisar",
+    suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Nao investir ainda. Revisar antes de comprar midia.",
+    mainBottleneck: bottlenecks[0][0],
     diagnosis: "Analise local: usada quando HF_TOKEN nao esta configurado ou a IA nao respondeu.",
     improvements: [
       "Deixe a promessa mais especifica e mensuravel.",
       "Inclua um beneficio concreto no inicio da headline.",
       "Troque CTA generico por uma acao simples e direta.",
-      "Reduza palavras vagas e explique o ganho principal em uma frase."
+      "Responda a objecao principal antes do clique.",
+      "Inclua prova social ou garantia se o publico ainda estiver frio."
+    ],
+    actionPlan: [
+      "Reescrever headline com promessa direta.",
+      "Fortalecer oferta ou reduzir risco percebido.",
+      "Ajustar CTA ao objetivo da campanha.",
+      "Rodar simulacao apos aplicar a versao sugerida."
     ],
     improvedHeadline: input.headline || "Resolva seu problema com uma oferta clara hoje",
     improvedBody: input.body || "Apresente a dor, mostre o beneficio principal, reduza risco e convide para uma acao simples.",
@@ -43,15 +60,21 @@ function sanitizeAnalysis(raw) {
   const verdict = ["escalar", "testar", "revisar"].includes(raw.verdict) ? raw.verdict : "testar";
   return {
     source: "huggingface",
+    hydraScore: clampScore(raw.hydraScore),
     attention: clampScore(raw.attention),
     clarity: clampScore(raw.clarity),
     offer: clampScore(raw.offer),
     cta: clampScore(raw.cta),
+    trust: clampScore(raw.trust),
     friction: clampScore(raw.friction),
     audienceFit: clampScore(raw.audienceFit),
+    wasteRisk: clampScore(raw.wasteRisk),
     verdict,
+    suggestedBudget: String(raw.suggestedBudget || ""),
+    mainBottleneck: String(raw.mainBottleneck || ""),
     diagnosis: String(raw.diagnosis || "Diagnostico indisponivel."),
     improvements: Array.isArray(raw.improvements) ? raw.improvements.slice(0, 6).map(String) : [],
+    actionPlan: Array.isArray(raw.actionPlan) ? raw.actionPlan.slice(0, 6).map(String) : [],
     improvedHeadline: String(raw.improvedHeadline || ""),
     improvedBody: String(raw.improvedBody || ""),
     improvedCta: String(raw.improvedCta || "")
@@ -69,8 +92,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const creative = req.body?.creative || {};
-  const model = req.body?.model || process.env.HF_MODEL || "openai/gpt-oss-120b:cerebras";
+  let body = {};
+  try {
+    body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
+  } catch {
+    body = {};
+  }
+  const creative = body.creative || {};
+  const model = body.model || process.env.HF_MODEL || "openai/gpt-oss-120b:cerebras";
   const token = process.env.HF_TOKEN;
 
   if (!token) {
@@ -91,7 +120,7 @@ export default async function handler(req, res) {
         messages: [
           {
             role: "system",
-            content: "Voce e o motor estrategico do Hydra | Strategy. Analise criativos antes do trafego pago. Responda somente JSON valido com chaves: attention, clarity, offer, cta, friction, audienceFit, verdict, diagnosis, improvements, improvedHeadline, improvedBody, improvedCta. Scores 0-100. verdict deve ser escalar, testar ou revisar."
+            content: "Voce e o motor estrategico do Hydra | Strategy. Analise briefing e criativo antes do trafego pago. Responda somente JSON valido com chaves: hydraScore, attention, clarity, offer, cta, trust, friction, audienceFit, wasteRisk, verdict, suggestedBudget, mainBottleneck, diagnosis, improvements, actionPlan, improvedHeadline, improvedBody, improvedCta. Scores 0-100. verdict deve ser escalar, testar ou revisar. suggestedBudget deve ser pratico e cauteloso, sem prometer performance."
           },
           {
             role: "user",

@@ -20,6 +20,14 @@ Configure:
 - rodadas Monte Carlo;
 - sementes iniciais;
 - opcionalmente, chave Hugging Face para diagnostico com IA;
+- nicho, canal, objetivo e ticket;
+- produto ou servico;
+- publico-alvo;
+- estagio do publico;
+- objecao principal;
+- prova social;
+- garantia ou redutor de risco;
+- verba planejada;
 - headline, texto do anuncio, oferta e CTA;
 - forca da oferta;
 - clareza da mensagem;
@@ -27,6 +35,22 @@ Configure:
 - aderencia ao publico.
 
 O botao `Analisar com IA` chama a rota serverless `api/analyze-creative.js`. Em producao, essa rota usa `HF_TOKEN` configurado nas Environment Variables da Vercel. Nao use `NEXT_PUBLIC_` no nome da chave, porque variaveis publicas ficam expostas no navegador.
+
+A analise gera:
+
+- Hydra Score;
+- score de atencao;
+- clareza;
+- oferta;
+- CTA;
+- confianca;
+- aderencia ao publico;
+- risco de verba;
+- veredito: revisar, testar ou escalar;
+- gargalo principal;
+- verba sugerida;
+- plano de acao;
+- versao melhorada do criativo.
 
 ## Deploy na Vercel
 
