@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hydra | Strategy</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel controls" aria-label="Configuracao da simulacao">
+        <div class="brand">
+          <div>
+            <h1>Hydra | Strategy</h1>
+            <p>Pre-teste de criativos para trafego pago</p>
+          </div>
+          <button id="runButton" class="primary">Rodar</button>
+        </div>
+
+        <div class="grid">
+          <label>
+            Pessoas
+            <input id="populationSize" type="number" min="50" max="2000" step="50" value="500" />
+          </label>
+          <label>
+            Conexoes por novo no
+            <input id="baEdges" type="number" min="1" max="12" step="1" value="3" />
+          </label>
+          <label>
+            Rodadas Monte Carlo
+            <input id="runs" type="number" min="20" max="2000" step="20" value="300" />
+          </label>
+          <label>
+            Sementes iniciais
+            <input id="seedCount" type="number" min="1" max="50" step="1" value="8" />
+          </label>
+        </div>
+
+        <div class="article">
+          <h2>Criativo</h2>
+          <label>
+            Nome da campanha
+            <input id="articleTitle" type="text" value="Anuncio de oferta local para redes sociais" />
+          </label>
+          <div class="creativeStack">
+            <label>
+              Modelo Hugging Face
+              <input id="hfModel" type="text" value="openai/gpt-oss-120b:cerebras" />
+            </label>
+            <label>
+              Headline
+              <input id="creativeHeadline" type="text" value="Oferta especial para resolver seu problema hoje" />
+            </label>
+            <label>
+              Texto do anuncio
+              <textarea id="creativeBody" rows="4">Mostre aqui o texto principal do criativo, promessa, diferencial e contexto da oferta.</textarea>
+            </label>
+            <div class="grid">
+              <label>
+                Oferta
+                <input id="creativeOffer" type="text" value="Condicao especial por tempo limitado" />
+              </label>
+              <label>
+                CTA
+                <input id="creativeCta" type="text" value="Clique e solicite uma avaliacao" />
+              </label>
+            </div>
+            <button id="analyzeCreativeButton" class="ghost" type="button">Analisar com IA</button>
+            <div id="aiStatus" class="aiStatus">IA pronta. Em producao, a chave vem do ambiente HF_TOKEN na Vercel.</div>
+          </div>
+          <div class="grid">
+            <label>
+              Forca da oferta
+              <input id="rightPraise" type="range" min="0" max="1" step="0.01" value="0.8" />
+            </label>
+            <label>
+              Clareza da mensagem
+              <input id="contextQuality" type="range" min="0" max="1" step="0.01" value="0.65" />
+            </label>
+            <label>
+              Atrito / polemica
+              <input id="provocation" type="range" min="0" max="1" step="0.01" value="0.35" />
+            </label>
+            <label>
+              Aderencia ao publico
+              <input id="localRelevance" type="range" min="0" max="1" step="0.01" value="0.7" />
+            </label>
+          </div>
+        </div>
+
+        <div class="progressBox">
+          <div class="progressMeta">
+            <span id="runStatus">Pronto para simular</span>
+            <strong id="runProgressLabel">0%</strong>
+          </div>
+          <div class="progressTrack">
+            <div id="runProgress" class="progressFill"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="metrics" aria-label="Resultados principais">
+          <article>
+            <span>Alcance organico</span>
+            <strong id="avgReach">-</strong>
+          </article>
+          <article>
+            <span>Rejeicao</span>
+            <strong id="negativeRate">-</strong>
+          </article>
+          <article>
+            <span>Risco de desperdicio</span>
+            <strong id="crisisChance">-</strong>
+          </article>
+          <article>
+            <span>Veredito de midia</span>
+            <strong id="financialRisk">-</strong>
+          </article>
+        </section>
+
+        <section class="panel intelPanel" aria-label="Explicacao da plataforma">
+          <div class="sectionTitle">
+            <h2>Como Ler a Plataforma</h2>
+            <span>modo operador</span>
+          </div>
+          <div class="intelGrid">
+            <article>
+              <strong>1. Criativo</strong>
+              <p>Configure a forca da oferta, clareza, atrito e aderencia. Esses parametros simulam como a peca pode ser percebida antes de entrar no trafego pago.</p>
+            </article>
+            <article>
+              <strong>2. Rede</strong>
+              <p>O Barabasi-Albert cria hubs e perfis comuns. Hubs funcionam como amplificadores: quando engajam, a propagacao acelera.</p>
+            </article>
+            <article>
+              <strong>3. Cascata</strong>
+              <p>Verde indica engajamento propagado. Vermelho indica impressao fria. Nos coloridos mostram quem reagiu ao criativo.</p>
+            </article>
+            <article>
+              <strong>4. Veredito</strong>
+              <p>Escalar significa bom sinal. Testar pede verba pequena. Revisar indica risco alto de gastar dinheiro antes de melhorar a peca.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel aiPanel" aria-label="Diagnostico de IA">
+          <div class="sectionTitle">
+            <h2>Diagnostico de IA</h2>
+            <span>ponte antes da verba</span>
+          </div>
+          <div id="aiOutput" class="aiOutput">
+            Cole o criativo e rode a analise. O Hydra vai transformar o texto em scores, diagnostico e melhorias antes do trafego pago.
+          </div>
+        </section>
+
+        <section class="panel canvasPanel" aria-label="Rede simulada">
+          <div class="sectionTitle">
+            <h2>Rede e Propagacao</h2>
+            <span id="networkSummary">Aguardando simulacao</span>
+          </div>
+          <canvas id="networkCanvas" width="1100" height="560"></canvas>
+          <div class="liveStats" aria-label="Estado da cascata em tempo real">
+            <article>
+              <span>Etapa</span>
+              <strong id="liveStep">0</strong>
+            </article>
+            <article>
+              <span>Nos engajados</span>
+              <strong id="liveActive">0</strong>
+            </article>
+            <article>
+              <span>Novos engajamentos</span>
+              <strong id="liveNew">0</strong>
+            </article>
+            <article>
+              <span>Impressoes frias</span>
+              <strong id="liveFailed">0</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="split">
+          <section class="panel">
+            <div class="sectionTitle">
+              <h2>Distribuicao</h2>
+              <span>media das rodadas</span>
+            </div>
+            <div id="bars" class="bars"></div>
+          </section>
+
+          <section class="panel">
+            <div class="sectionTitle">
+              <h2>Amostra de Perfis</h2>
+              <button id="rerollButton" class="ghost">Rodizio</button>
+            </div>
+            <div id="profiles" class="profiles"></div>
+          </section>
+        </section>
+
+        <section class="panel reportPanel" aria-label="Relatorio tecnico">
+          <div class="sectionTitle">
+            <h2>Hydra Report</h2>
+            <div class="actions">
+              <button id="copyReportButton" class="ghost">Copiar</button>
+              <button id="downloadReportButton" class="ghost">Baixar PDF</button>
+            </div>
+          </div>
+          <div id="reportOutput" class="reportDocument">Rode uma simulacao para gerar o relatorio.</div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
