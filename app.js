@@ -196,7 +196,7 @@ function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
 }
 
-function heuristicCreativeAnalysis(input) {
+function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do navegador acionada.") {
   const all = `${input.headline} ${input.body} ${input.offer} ${input.cta} ${input.product} ${input.audience} ${input.objection} ${input.proof} ${input.guarantee}`.toLowerCase();
   const hasNumber = /\d/.test(all);
   const hasUrgency = /(hoje|agora|limitad|ultim|gratis|gratuita|bonus|desconto)/i.test(all);
@@ -236,7 +236,8 @@ function heuristicCreativeAnalysis(input) {
     verdict: hydraScore >= 78 ? "escalar" : hydraScore >= 58 ? "testar" : "revisar",
     suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Nao investir ainda. Revisar antes de comprar midia.",
     mainBottleneck: bottlenecks[0][0],
-    diagnosis: "Analise local: o criativo foi pontuado por briefing, clareza, promessa, oferta, prova, redutor de risco, publico e CTA.",
+    fallbackReason,
+    diagnosis: `Analise local: ${fallbackReason}`,
     improvements: [
       "Deixe a promessa mais especifica e mensuravel.",
       "Inclua um beneficio concreto no inicio da headline.",
@@ -292,7 +293,7 @@ async function analyzeCreativeWithHF() {
 
     applyCreativeAnalysis(analysis);
   } catch (error) {
-    const fallback = heuristicCreativeAnalysis(input);
+    const fallback = heuristicCreativeAnalysis(input, `O navegador nao conseguiu chamar /api/analyze-creative: ${error.message}`);
     $("aiStatus").textContent = `Backend indisponivel (${error.message}). Usei analise local no navegador.`;
     applyCreativeAnalysis(fallback);
   } finally {
@@ -315,6 +316,7 @@ function applyCreativeAnalysis(raw) {
     verdict: ["escalar", "testar", "revisar"].includes(raw.verdict) ? raw.verdict : "testar",
     suggestedBudget: raw.suggestedBudget || "",
     mainBottleneck: raw.mainBottleneck || "",
+    fallbackReason: raw.fallbackReason || "",
     diagnosis: raw.diagnosis || "Diagnostico indisponivel.",
     improvements: Array.isArray(raw.improvements) ? raw.improvements.slice(0, 6) : [],
     actionPlan: Array.isArray(raw.actionPlan) ? raw.actionPlan.slice(0, 6) : [],
@@ -348,6 +350,7 @@ function renderAiAnalysis(analysis) {
       <div><span>Veredito</span><strong>${analysis.verdict.toUpperCase()}</strong></div>
     </div>
     <p>${escapeHtml(analysis.diagnosis)}</p>
+    ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
     <h3>Melhorias sugeridas</h3>
@@ -1243,6 +1246,7 @@ function generateAiOnlyReportHtml() {
 
     <h2>3. Diagnostico</h2>
     <p>${escapeHtml(analysis.diagnosis)}</p>
+    ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
 

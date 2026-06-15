@@ -2,7 +2,7 @@ function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
 }
 
-function heuristicCreativeAnalysis(input) {
+function heuristicCreativeAnalysis(input, fallbackReason = "HF_TOKEN ausente ou IA indisponivel.") {
   const all = `${input.headline || ""} ${input.body || ""} ${input.offer || ""} ${input.cta || ""} ${input.product || ""} ${input.audience || ""} ${input.objection || ""} ${input.proof || ""} ${input.guarantee || ""}`.toLowerCase();
   const hasNumber = /\d/.test(all);
   const hasUrgency = /(hoje|agora|limitad|ultim|gratis|gratuita|bonus|desconto)/i.test(all);
@@ -36,7 +36,8 @@ function heuristicCreativeAnalysis(input) {
     verdict: hydraScore >= 78 ? "escalar" : hydraScore >= 58 ? "testar" : "revisar",
     suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Nao investir ainda. Revisar antes de comprar midia.",
     mainBottleneck: bottlenecks[0][0],
-    diagnosis: "Analise local: usada quando HF_TOKEN nao esta configurado ou a IA nao respondeu.",
+    fallbackReason,
+    diagnosis: `Analise local: ${fallbackReason}`,
     improvements: [
       "Deixe a promessa mais especifica e mensuravel.",
       "Inclua um beneficio concreto no inicio da headline.",
@@ -103,7 +104,7 @@ export default async function handler(req, res) {
   const token = process.env.HF_TOKEN;
 
   if (!token) {
-    return res.status(200).json(heuristicCreativeAnalysis(creative));
+    return res.status(200).json(heuristicCreativeAnalysis(creative, "HF_TOKEN nao esta configurado nas Environment Variables da Vercel."));
   }
 
   try {
@@ -131,13 +132,21 @@ export default async function handler(req, res) {
     });
 
     if (!response.ok) {
-      return res.status(200).json(heuristicCreativeAnalysis(creative));
+      const errorText = await response.text().catch(() => "");
+      return res.status(200).json(heuristicCreativeAnalysis(
+        creative,
+        `Hugging Face respondeu HTTP ${response.status}. ${errorText.slice(0, 180)}`
+      ));
     }
 
     const data = await response.json();
-    const raw = parseAiContent(data.choices?.[0]?.message?.content || "{}");
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) {
+      return res.status(200).json(heuristicCreativeAnalysis(creative, "Hugging Face respondeu sem conteudo analisavel."));
+    }
+    const raw = parseAiContent(content);
     return res.status(200).json(sanitizeAnalysis(raw));
-  } catch {
-    return res.status(200).json(heuristicCreativeAnalysis(creative));
+  } catch (error) {
+    return res.status(200).json(heuristicCreativeAnalysis(creative, `Erro ao chamar ou interpretar a IA: ${error.message}`));
   }
 }
