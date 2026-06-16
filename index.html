@@ -4,23 +4,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hydra | Strategy</title>
-    <meta name="description" content="Pre-teste de criativos para trafego pago com IA, simulacao de propagacao, score financeiro e relatorio tecnico." />
+    <meta name="description" content="Pré-teste de criativos para tráfego pago com IA, simulação de propagação, score financeiro e relatório técnico." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Hydra | Strategy" />
-    <meta property="og:description" content="Antecipe risco, corte desperdicio e valide criativos antes de comprar trafego pago." />
+    <meta property="og:description" content="Antecipe risco, corte desperd?cio e valide criativos antes de comprar tráfego pago." />
     <meta property="og:image" content="/og-image.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Hydra | Strategy" />
-    <meta name="twitter:description" content="Pre-teste comercial de criativos antes da verba." />
+    <meta name="twitter:description" content="Pré-teste comercial de criativos antes da verba." />
     <meta name="twitter:image" content="/og-image.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="app">
-      <section class="panel controls" aria-label="Configuracao da simulacao">
+      <section class="panel controls" aria-label="Configuração da simulação">
         <div class="brand">
           <div>
             <div class="logoLockup">
@@ -30,7 +30,7 @@
               </svg>
               <h1>Hydra | Strategy</h1>
             </div>
-            <p>Pre-teste de criativos para trafego pago</p>
+            <p>Pré-teste de criativos para tráfego pago</p>
           </div>
           <button id="runButton" class="primary">Rodar</button>
         </div>
@@ -41,7 +41,7 @@
             <input id="populationSize" type="number" min="50" max="2000" step="50" value="500" />
           </label>
           <label>
-            Conexoes por novo no
+            Conexões por novo nó
             <input id="baEdges" type="number" min="1" max="12" step="1" value="3" />
           </label>
           <label>
@@ -58,12 +58,12 @@
           <h2>Briefing Comercial</h2>
           <label>
             Nome da campanha
-            <input id="articleTitle" type="text" placeholder="Ex: Campanha WhatsApp clinica estetica" />
+            <input id="articleTitle" type="text" placeholder="Ex: Campanha WhatsApp cl?nica est?tica" />
           </label>
           <div class="grid">
             <label>
               Nicho
-              <input id="briefNiche" type="text" placeholder="Ex: clinica estetica, restaurante, imobiliaria" />
+              <input id="briefNiche" type="text" placeholder="Ex: cl?nica est?tica, restaurante, imobili?ria" />
             </label>
             <label>
               Canal
@@ -73,7 +73,7 @@
                 <option>TikTok Ads</option>
                 <option>Google Ads</option>
                 <option>LinkedIn Ads</option>
-                <option>WhatsApp / trafego local</option>
+                <option>WhatsApp / tráfego local</option>
               </select>
             </label>
             <label>
@@ -89,21 +89,21 @@
               </select>
             </label>
             <label>
-              Ticket medio
+              Ticket médio
               <input id="briefTicket" type="text" placeholder="Ex: R$ 300, R$ 2.000, recorrente" />
             </label>
           </div>
           <label>
-            Produto ou servico
-            <input id="briefProduct" type="text" placeholder="O que esta sendo vendido?" />
+            Produto ou serviço
+            <input id="briefProduct" type="text" placeholder="O que est? sendo vendido?" />
           </label>
           <label>
-            Publico-alvo
+            Público-alvo
             <textarea id="briefAudience" rows="3" placeholder="Quem deve comprar? Idade, cidade, renda, dores, desejo, contexto."></textarea>
           </label>
           <div class="grid">
             <label>
-              Estagio do publico
+              Estágio do público
               <select id="briefStage">
                 <option value="">Selecione</option>
                 <option>Frio</option>
@@ -118,17 +118,17 @@
             </label>
           </div>
           <label>
-            Objecao principal
-            <input id="briefObjection" type="text" placeholder="Ex: preco, confianca, medo, tempo, comparacao" />
+            Objeção principal
+            <input id="briefObjection" type="text" placeholder="Ex: preço, confiança, medo, tempo, comparação" />
           </label>
           <div class="grid">
             <label>
               Prova social
-              <input id="briefProof" type="text" placeholder="Ex: depoimentos, antes/depois, cases, numeros" />
+              <input id="briefProof" type="text" placeholder="Ex: depoimentos, antes/depois, cases, números" />
             </label>
             <label>
               Garantia / redutor de risco
-              <input id="briefGuarantee" type="text" placeholder="Ex: garantia, avaliacao gratis, sem compromisso" />
+              <input id="briefGuarantee" type="text" placeholder="Ex: garantia, avaliação grátis, sem compromisso" />
             </label>
           </div>
 
@@ -139,13 +139,13 @@
               <input id="creativeHeadline" type="text" placeholder="Cole a headline do criativo" />
             </label>
             <label>
-              Texto do anuncio
-              <textarea id="creativeBody" rows="4" placeholder="Cole o texto principal do anuncio"></textarea>
+              Texto do anúncio
+              <textarea id="creativeBody" rows="4" placeholder="Cole o texto principal do anúncio"></textarea>
             </label>
             <div class="grid">
               <label>
                 Oferta
-                <input id="creativeOffer" type="text" placeholder="Ex: avaliacao gratuita, desconto, bonus, garantia" />
+                <input id="creativeOffer" type="text" placeholder="Ex: avaliação gratuita, desconto, bônus, garantia" />
               </label>
               <label>
                 CTA
@@ -153,11 +153,11 @@
               </label>
             </div>
             <button id="analyzeCreativeButton" class="ghost" type="button">Analisar com IA</button>
-            <div id="aiStatus" class="aiStatus">IA pronta. Em producao, a chave vem do ambiente HF_TOKEN na Vercel.</div>
+            <div id="aiStatus" class="aiStatus">IA pronta. Em produção, a chave vem do ambiente HF_TOKEN na Vercel.</div>
           </div>
           <div class="grid">
             <label>
-              Forca da oferta
+              Força da oferta
               <input id="rightPraise" type="range" min="0" max="1" step="0.01" value="0.8" />
             </label>
             <label>
@@ -165,11 +165,11 @@
               <input id="contextQuality" type="range" min="0" max="1" step="0.01" value="0.65" />
             </label>
             <label>
-              Atrito / polemica
+              Atrito / pol?mica
               <input id="provocation" type="range" min="0" max="1" step="0.01" value="0.35" />
             </label>
             <label>
-              Aderencia ao publico
+              Aderência ao público
               <input id="localRelevance" type="range" min="0" max="1" step="0.01" value="0.7" />
             </label>
           </div>
@@ -189,24 +189,24 @@
       <section class="workspace">
         <section class="metrics" aria-label="Resultados principais">
           <article>
-            <span>Alcance organico</span>
+            <span>Alcance orgânico</span>
             <strong id="avgReach">-</strong>
           </article>
           <article>
-            <span>Rejeicao</span>
+            <span>Rejeição</span>
             <strong id="negativeRate">-</strong>
           </article>
           <article>
-            <span>Risco de desperdicio</span>
+            <span>Risco de desperd?cio</span>
             <strong id="crisisChance">-</strong>
           </article>
           <article>
-            <span>Veredito de midia</span>
+            <span>Veredito de mídia</span>
             <strong id="financialRisk">-</strong>
           </article>
         </section>
 
-        <section class="panel intelPanel" aria-label="Explicacao da plataforma">
+        <section class="panel intelPanel" aria-label="Explicação da plataforma">
           <div class="sectionTitle">
             <h2>Como Ler a Plataforma</h2>
             <span>modo operador</span>
@@ -214,40 +214,40 @@
           <div class="intelGrid">
             <article>
               <strong>1. Criativo</strong>
-              <p>Configure a forca da oferta, clareza, atrito e aderencia. Esses parametros simulam como a peca pode ser percebida antes de entrar no trafego pago.</p>
+              <p>Configure a força da oferta, clareza, atrito e aderência. Esses parâmetros simulam como a peça pode ser percebida antes de entrar no tráfego pago.</p>
             </article>
             <article>
               <strong>2. Rede</strong>
-              <p>O Barabasi-Albert cria hubs e perfis comuns. Hubs funcionam como amplificadores: quando engajam, a propagacao acelera.</p>
+              <p>O Barabasi-Albert cria hubs e perfis comuns. Hubs funcionam como amplificadores: quando engajam, a propagação acelera.</p>
             </article>
             <article>
               <strong>3. Cascata</strong>
-              <p>Verde indica engajamento propagado. Vermelho indica impressao fria. Nos coloridos mostram quem reagiu ao criativo.</p>
+              <p>Verde indica engajamento propagado. Vermelho indica impressão fria. Nós coloridos mostram quem reagiu ao criativo.</p>
             </article>
             <article>
               <strong>4. Veredito</strong>
-              <p>Escalar significa bom sinal. Testar pede verba pequena. Revisar indica risco alto de gastar dinheiro antes de melhorar a peca.</p>
+              <p>Escalar significa bom sinal. Testar pede verba pequena. Revisar indica risco alto de gastar dinheiro antes de melhorar a peça.</p>
             </article>
           </div>
         </section>
 
-        <section class="panel aiPanel" aria-label="Diagnostico de IA">
+        <section class="panel aiPanel" aria-label="Diagnóstico de IA">
           <div class="sectionTitle">
-            <h2>Diagnostico de IA</h2>
+            <h2>Diagnóstico de IA</h2>
             <span>ponte antes da verba</span>
           </div>
           <div id="aiOutput" class="aiOutput">
-            Cole o criativo e rode a analise. O Hydra vai transformar o texto em scores, diagnostico e melhorias antes do trafego pago.
+            Cole o criativo e rode a análise. O Hydra vai transformar o texto em scores, diagnóstico e melhorias antes do tráfego pago.
           </div>
         </section>
 
-        <section class="panel commercialPanel" aria-label="Decisao comercial">
+        <section class="panel commercialPanel" aria-label="Decisão comercial">
           <div class="sectionTitle">
-            <h2>Decisao Comercial</h2>
+            <h2>Decisão Comercial</h2>
             <span>antes da verba</span>
           </div>
           <div id="commercialOutput" class="aiOutput">
-            Analise um criativo para gerar score financeiro, verba sugerida, criterio de corte e plano de midia.
+            Análise um criativo para gerar score financeiro, verba sugerida, critério de corte e plano de mídia.
           </div>
         </section>
 
@@ -257,14 +257,14 @@
             <span>A/B antes de escalar</span>
           </div>
           <div id="testMatrixOutput" class="aiOutput">
-            A matriz aparece depois da analise com IA.
+            A matriz aparece depois da análise com IA.
           </div>
         </section>
 
-        <section class="panel actualPanel" aria-label="Comparacao previsto versus real">
+        <section class="panel actualPanel" aria-label="Comparação previsto versus real">
           <div class="sectionTitle">
             <h2>Previsto vs Real</h2>
-            <span>recalibracao operacional</span>
+            <span>recalibração operacional</span>
           </div>
           <div class="actualGrid">
             <label>
@@ -288,39 +288,39 @@
               <input id="actualSpend" type="number" min="0" step="0.01" placeholder="Ex: 300" />
             </label>
             <label>
-              Comentarios negativos
+              Comentários negativos
               <input id="actualNegativeComments" type="number" min="0" step="1" placeholder="Ex: 3" />
             </label>
           </div>
           <button id="compareActualButton" class="ghost" type="button">Comparar resultado real</button>
-          <div id="actualOutput" class="aiOutput">Depois do teste real, informe os numeros para comparar com a previsao do Hydra.</div>
+          <div id="actualOutput" class="aiOutput">Depois do teste real, informe os números para comparar com a previsão do Hydra.</div>
         </section>
 
-        <section class="panel historyPanel" aria-label="Historico de analises">
+        <section class="panel historyPanel" aria-label="Histórico de análises">
           <div class="sectionTitle">
-            <h2>Historico Local</h2>
-            <span>ultimas decisoes</span>
+            <h2>Histórico Local</h2>
+            <span>últimas decisões</span>
           </div>
-          <div id="historyOutput" class="aiOutput">Nenhuma analise salva ainda.</div>
+          <div id="historyOutput" class="aiOutput">Nenhuma análise salva ainda.</div>
         </section>
 
-        <section class="panel calibrationPanel" aria-label="Calibracao com dados reais">
+        <section class="panel calibrationPanel" aria-label="Calibração com dados reais">
           <div class="sectionTitle">
-            <h2>Calibracao Real</h2>
-            <span>historico versionado no Git</span>
+            <h2>Calibração Real</h2>
+            <span>histórico versionado no Git</span>
           </div>
           <div class="calibrationActions">
-            <button id="refreshCalibrationButton" class="ghost" type="button">Recarregar historico</button>
+            <button id="refreshCalibrationButton" class="ghost" type="button">Recarregar histórico</button>
           </div>
           <div id="calibrationOutput" class="aiOutput">
-            Carregando historico de campanhas do repositorio...
+            Carregando histórico de campanhas do repositório...
           </div>
         </section>
 
         <section class="panel canvasPanel" aria-label="Rede simulada">
           <div class="sectionTitle">
-            <h2>Rede e Propagacao</h2>
-            <span id="networkSummary">Aguardando simulacao</span>
+            <h2>Rede e Propagação</h2>
+            <span id="networkSummary">Aguardando simulação</span>
           </div>
           <canvas id="networkCanvas" width="1100" height="560"></canvas>
           <div class="liveStats" aria-label="Estado da cascata em tempo real">
@@ -329,7 +329,7 @@
               <strong id="liveStep">0</strong>
             </article>
             <article>
-              <span>Nos engajados</span>
+              <span>Nós engajados</span>
               <strong id="liveActive">0</strong>
             </article>
             <article>
@@ -337,7 +337,7 @@
               <strong id="liveNew">0</strong>
             </article>
             <article>
-              <span>Impressoes frias</span>
+              <span>Impressões frias</span>
               <strong id="liveFailed">0</strong>
             </article>
           </div>
@@ -346,8 +346,8 @@
         <section class="split">
           <section class="panel">
             <div class="sectionTitle">
-              <h2>Distribuicao</h2>
-              <span>media das rodadas</span>
+              <h2>Distribuição</h2>
+              <span>média das rodadas</span>
             </div>
             <div id="bars" class="bars"></div>
           </section>
@@ -355,13 +355,13 @@
           <section class="panel">
             <div class="sectionTitle">
               <h2>Influenciadores</h2>
-              <button id="rerollButton" class="ghost">Rodizio</button>
+              <button id="rerollButton" class="ghost">Rodízio</button>
             </div>
             <div id="profiles" class="profiles"></div>
           </section>
         </section>
 
-        <section class="panel reportPanel" aria-label="Relatorio tecnico">
+        <section class="panel reportPanel" aria-label="Relatório técnico">
           <div class="sectionTitle">
             <h2>Hydra Report</h2>
             <div class="actions">
@@ -369,7 +369,7 @@
               <button id="downloadReportButton" class="ghost">Baixar PDF</button>
             </div>
           </div>
-          <div id="reportOutput" class="reportDocument">Rode uma simulacao para gerar o relatorio.</div>
+          <div id="reportOutput" class="reportDocument">Rode uma simulação para gerar o relatório.</div>
         </section>
       </section>
     </main>

@@ -17,22 +17,22 @@ const lastNames = [
 ];
 
 const jobs = [
-  ["enfermeira", 0.48], ["medico", 0.86], ["caixa de supermercado", 0.24],
+  ["enfermeira", 0.48], ["médico", 0.86], ["caixa de supermercado", 0.24],
   ["professora", 0.42], ["advogado", 0.74], ["empreendedora", 0.66],
   ["motorista de aplicativo", 0.32], ["servidora publica", 0.52],
   ["engenheiro", 0.78], ["comerciante", 0.58], ["designer", 0.55],
   ["programador", 0.72], ["analista financeiro", 0.68], ["contador", 0.62],
-  ["vendedor", 0.38], ["gerente comercial", 0.7], ["corretor de imoveis", 0.64],
-  ["psicologa", 0.6], ["dentista", 0.8], ["fisioterapeuta", 0.58],
-  ["farmaceutica", 0.57], ["nutricionista", 0.56], ["personal trainer", 0.5],
+  ["vendedor", 0.38], ["gerente comercial", 0.7], ["corretor de imóveis", 0.64],
+  ["psicóloga", 0.6], ["dentista", 0.8], ["fisioterapeuta", 0.58],
+  ["farmacêutica", 0.57], ["nutricionista", 0.56], ["personal trainer", 0.5],
   ["barbeiro", 0.42], ["cabeleireira", 0.4], ["manicure", 0.34],
   ["cozinheira", 0.33], ["chef de cozinha", 0.62], ["garcom", 0.28],
   ["recepcionista", 0.32], ["secretaria", 0.36], ["assistente administrativo", 0.4],
   ["mecanico", 0.44], ["eletricista", 0.46], ["pedreiro", 0.35],
-  ["arquiteta", 0.76], ["veterinaria", 0.7], ["policial", 0.52],
+  ["arquiteta", 0.76], ["veterinária", 0.7], ["policial", 0.52],
   ["bombeiro", 0.5], ["militar", 0.54], ["produtora de conteudo", 0.58],
-  ["influenciador local", 0.66], ["fotografa", 0.52], ["jornalista", 0.55],
-  ["publicitaria", 0.6], ["consultor", 0.72], ["produtor rural", 0.5],
+  ["influ?nciador local", 0.66], ["fotografa", 0.52], ["jornalista", 0.55],
+  ["publicitária", 0.6], ["consultor", 0.72], ["produtor rural", 0.5],
   ["agricultora", 0.42], ["caminhoneiro", 0.48], ["estudante", 0.22],
   ["aposentada", 0.38], ["dona de casa", 0.3], ["empresario", 0.82]
 ];
@@ -43,24 +43,24 @@ const regions = [
 ];
 
 const religions = [
-  ["evangelica", 0.32], ["catolica", 0.08], ["sem religiao", -0.22],
-  ["espirita", -0.02], ["umbandista", -0.04], ["candomblecista", -0.05],
-  ["judaica", 0.02], ["islamica", 0.01], ["budista", -0.08],
-  ["hinduista", -0.06], ["ateia", -0.25], ["agnostica", -0.18],
+  ["evangélica", 0.32], ["católica", 0.08], ["sem religião", -0.22],
+  ["espírita", -0.02], ["umbandista", -0.04], ["candomblecista", -0.05],
+  ["judaica", 0.02], ["islâmica", 0.01], ["budista", -0.08],
+  ["hinduísta", -0.06], ["ateia", -0.25], ["agnóstica", -0.18],
   ["testemunha de jeova", 0.18], ["adventista", 0.22], ["mormon", 0.2],
   ["outra", 0.0]
 ];
 
 const interests = [
-  "familia", "futebol", "basquete", "animes", "livros", "carros esportivos",
-  "golf", "igreja", "viagens", "politica local", "saude", "educacao",
-  "corrida", "ciclismo", "musculacao", "crossfit", "natacao", "volei",
+  "família", "futebol", "basquete", "animes", "livros", "carros esportivos",
+  "golf", "igreja", "viagens", "politica local", "saúde", "educação",
+  "corrida", "ciclismo", "musculação", "crossfit", "natação", "volei",
   "tenis", "skate", "surf", "jiu-jitsu", "boxe", "mma", "handebol",
   "xadrez", "games", "cinema", "series", "teatro", "musica", "violao",
-  "piano", "fotografia", "culinaria", "jardinagem", "moda", "maquiagem",
+  "piano", "fotografia", "culinária", "jardinagem", "moda", "maquiagem",
   "tecnologia", "podcasts", "investimentos", "empreendedorismo",
   "carros antigos", "motos", "pesca", "trilhas", "camping", "praia",
-  "vinhos", "cafes especiais", "artesanato", "decoracao", "voluntariado"
+  "vinhos", "cafes especiais", "artesanato", "decoração", "voluntariado"
 ];
 
 const state = {
@@ -269,10 +269,10 @@ function meaningfulness(value) {
 function inputQuality(input) {
   const fields = [
     ["nicho", input.niche],
-    ["produto/servico", input.product],
-    ["publico-alvo", input.audience],
+    ["produto/serviço", input.product],
+    ["público-alvo", input.audience],
     ["headline", input.headline],
-    ["texto do anuncio", input.body],
+    ["texto do anúncio", input.body],
     ["oferta", input.offer],
     ["CTA", input.cta]
   ];
@@ -373,7 +373,7 @@ function saveCalibrationRows(rows) {
 }
 
 async function fetchCalibrationRows() {
-  $("calibrationOutput").innerHTML = "Carregando historico versionado do Git...";
+  $("calibrationOutput").innerHTML = "Carregando histórico versionado do Git...";
   try {
     const response = await fetch("/api/calibration");
     if (!response.ok) throw new Error(`API ${response.status}`);
@@ -387,7 +387,7 @@ async function fetchCalibrationRows() {
     }
   } catch (error) {
     state.calibrationRows = [];
-    $("calibrationOutput").innerHTML = `Nao consegui carregar /api/calibration: ${escapeHtml(error.message)}. O Hydra vai usar apenas IA e simulacao.`;
+    $("calibrationOutput").innerHTML = `Não consegui carregar /api/calibration: ${escapeHtml(error.message)}. O Hydra vai usar apenas IA e simulação.`;
   }
 }
 
@@ -419,7 +419,7 @@ function getCalibrationInsight(input) {
       sampleSize: 0,
       confidence: "baixa",
       benchmarkScore: null,
-      message: "Sem historico compativel. Recomendacao baseada em IA, regras e simulacao sintetica."
+      message: "Sem histórico compativel. Recomendação baseada em IA, regras e simulação sintética."
     };
   }
   const avgPerformance = matched.reduce((sum, row) => sum + row.performanceScore, 0) / matched.length;
@@ -428,7 +428,7 @@ function getCalibrationInsight(input) {
     sampleSize: matched.length,
     confidence,
     benchmarkScore: clampScore(avgPerformance),
-    message: `Comparado com ${matched.length} campanha(s) historica(s) compativeis. Benchmark medio: ${clampScore(avgPerformance)}/100.`
+    message: `Comparado com ${matched.length} campanha(s) historica(s) compativeis. Benchmark médio: ${clampScore(avgPerformance)}/100.`
   };
 }
 
@@ -451,22 +451,22 @@ function renderCalibration(apiData = null) {
   const count = state.calibrationRows.length;
   if (!count) {
     const error = apiData?.error ? ` Erro: ${apiData.error}` : "";
-    $("calibrationOutput").innerHTML = `Sem historico carregado do Git.${escapeHtml(error)} O Hydra usa apenas diagnostico estrategico e simulacao sintetica.`;
+    $("calibrationOutput").innerHTML = `Sem histórico carregado do Git.${escapeHtml(error)} O Hydra usa apenas diagnóstico estrategico e simulação sintética.`;
     return;
   }
   const avg = state.calibrationRows.reduce((sum, row) => sum + row.performanceScore, 0) / count;
   $("calibrationOutput").innerHTML = `
-    <h3>Historico do Git carregado</h3>
+    <h3>Histórico do Git carregado</h3>
     <div class="aiScoreGrid">
       <div><span>Campanhas</span><strong>${count}</strong></div>
       <div><span>Benchmark</span><strong>${clampScore(avg)}</strong></div>
       <div><span>Fonte</span><strong>${apiData?.source || "git"}</strong></div>
     </div>
-    <p>Arquivo: <strong>data/campaign-history.csv</strong>. O Hydra compara novos criativos contra esse historico por nicho, canal e objetivo quando houver compatibilidade.</p>
+    <p>Arquivo: <strong>data/campaign-history.csv</strong>. O Hydra compara novos criativos contra esse histórico por nicho, canal e objetivo quando houver compatibilidade.</p>
   `;
 }
 
-function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do navegador acionada.") {
+function heuristicCreativeAnalysis(input, fallbackReason = "Análise local do navegador acionada.") {
   const quality = inputQuality(input);
   if (quality.isNoise) {
     return {
@@ -481,35 +481,35 @@ function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do nav
       audienceFit: 5,
       wasteRisk: 96,
       verdict: "revisar",
-      suggestedBudget: "Nao investir. O briefing nao contem informacao suficiente para validar trafego pago.",
+      suggestedBudget: "Não investir. O briefing não contem informação suficiente para validar tráfego pago.",
       mainBottleneck: "entrada invalida",
       fallbackReason,
-      diagnosis: `Entrada sem sentido comercial suficiente. Campos sem informacao util: ${quality.invalid.join(", ")}. O Hydra precisa de produto, publico, promessa, oferta e CTA reais para anteceder trafego pago.`,
+      diagnosis: `Entrada sem sentido comercial suficiente. Campos sem informação util: ${quality.invalid.join(", ")}. O Hydra precisa de produto, público, promessa, oferta e CTA reais para anteceder tráfego pago.`,
       improvements: [
-        "Informe qual produto ou servico sera anunciado.",
-        "Descreva o publico-alvo com contexto real.",
-        "Escreva uma headline compreensivel.",
+        "Informe qual produto ou serviço sera anunciado.",
+        "Descreva o público-alvo com contexto real.",
+        "Escreva uma headline compreens?vel.",
         "Explique a oferta e o CTA sem texto aleatorio."
       ],
       actionPlan: [
         "Substituir textos aleatorios por briefing real.",
-        "Preencher produto, publico, oferta e CTA.",
+        "Preencher produto, público, oferta e CTA.",
         "Rodar Analisar com IA novamente.",
-        "So depois usar a simulacao de propagacao."
+        "Só depois usar a simulação de propagação."
       ],
-      improvedHeadline: "Preencha uma headline real antes de gerar versao sugerida.",
-      improvedBody: "O texto enviado nao tem conteudo suficiente para reescrita confiavel.",
-      improvedCta: "Informe uma acao real, como chamar no WhatsApp ou solicitar avaliacao."
+      improvedHeadline: "Preencha uma headline real antes de gerar versão sugerida.",
+      improvedBody: "O texto enviado não tem conteudo suficiente para reescrita confiavel.",
+      improvedCta: "Informe uma ação real, como chamar no WhatsApp ou solicitar avaliação."
     };
   }
 
   const all = `${input.headline} ${input.body} ${input.offer} ${input.cta} ${input.product} ${input.audience} ${input.objection} ${input.proof} ${input.guarantee}`.toLowerCase();
   const hasNumber = /\d/.test(all);
-  const hasUrgency = /(hoje|agora|limitad|ultim|gratis|gratuita|bonus|desconto)/i.test(all);
+  const hasUrgency = /(hoje|agora|limitad|ultim|grátis|gratuita|bônus|desconto)/i.test(all);
   const hasPain = /(dor|problema|dificuldade|perder|cansad|sem tempo|caro|risco)/i.test(all);
   const hasProof = Boolean(input.proof) || /(depoimento|case|clientes|antes|depois|resultado|anos|garantia)/i.test(all);
   const hasAudience = Boolean(input.audience) || Boolean(input.niche);
-  const hasRiskReducer = Boolean(input.guarantee) || /(garantia|gratis|sem compromisso|avaliacao|teste)/i.test(all);
+  const hasRiskReducer = Boolean(input.guarantee) || /(garantia|grátis|sem compromisso|avaliação|teste)/i.test(all);
   const hasAction = /(clique|chame|agende|compre|solicite|fale|baixe|acesse)/i.test(input.cta);
   const textLength = all.length;
   const clarity = clampScore(40 + (input.headline.length > 18 ? 12 : 0) + (input.cta.length > 8 ? 12 : 0) + (hasAudience ? 10 : 0) - (textLength > 900 ? 18 : 0));
@@ -524,8 +524,8 @@ function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do nav
     ["clareza", clarity],
     ["oferta", offer],
     ["CTA", cta],
-    ["confianca", trust],
-    ["aderencia", audienceFit]
+    ["confiança", trust],
+    ["aderência", audienceFit]
   ].sort((a, b) => a[1] - b[1]);
 
   return {
@@ -540,26 +540,26 @@ function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do nav
     audienceFit,
     wasteRisk: clampScore(100 - hydraScore + friction * 0.25),
     verdict: hydraScore >= 78 ? "escalar" : hydraScore >= 58 ? "testar" : "revisar",
-    suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Nao investir ainda. Revisar antes de comprar midia.",
+    suggestedBudget: hydraScore >= 78 ? "Teste controlado com 20% a 35% da verba planejada." : hydraScore >= 58 ? "Teste pequeno com 5% a 15% da verba planejada." : "Não investir ainda. Revisar antes de comprar mídia.",
     mainBottleneck: bottlenecks[0][0],
     fallbackReason,
-    diagnosis: `Analise local: ${fallbackReason}`,
+    diagnosis: `Análise local: ${fallbackReason}`,
     improvements: [
       "Deixe a promessa mais especifica e mensuravel.",
-      "Inclua um beneficio concreto no inicio da headline.",
-      "Troque CTA generico por uma acao simples e direta.",
-      "Responda a objecao principal antes do clique.",
-      "Inclua prova social ou garantia se o publico ainda estiver frio."
+      "Inclua um benefício concreto no início da headline.",
+      "Troque CTA genérico por uma ação simples e direta.",
+      "Responda a objeção principal antes do clique.",
+      "Inclua prova social ou garantia se o público ainda estiver frio."
     ],
     actionPlan: [
       "Reescrever headline com promessa direta.",
       "Fortalecer oferta ou reduzir risco percebido.",
       "Ajustar CTA ao objetivo da campanha.",
-      "Rodar simulacao apos aplicar a versao sugerida."
+      "Rodar simulação ap?s aplicar a versão sugerida."
     ],
     improvedHeadline: input.headline || "Resolva seu problema com uma oferta clara hoje",
-    improvedBody: input.body || "Apresente a dor, mostre o beneficio principal, reduza risco e convide para uma acao simples.",
-    improvedCta: hasAction ? input.cta : "Clique e solicite sua avaliacao"
+    improvedBody: input.body || "Apresente a dor, mostre o benefício principal, reduza risco e convide para uma ação simples.",
+    improvedCta: hasAction ? input.cta : "Clique e solicite sua avaliação"
   };
 }
 
@@ -573,13 +573,13 @@ async function analyzeCreativeWithHF() {
 
   if (!input.headline && !input.body && !input.offer && !input.cta) {
     $("aiStatus").textContent = "Preencha o criativo antes de analisar.";
-    $("aiOutput").innerHTML = `<h3>Nenhum criativo informado</h3><p>Cole pelo menos headline, texto, oferta ou CTA para o Hydra diagnosticar.</p>`;
+    $("aiOutput").innerHTML = `<h3>Nenhum criativo informado</h3><p>Cole pelo menos headline, texto, oferta ou CTA para o Hydra diagnósticar.</p>`;
     return;
   }
 
   $("aiStatus").textContent = "Analisando criativo...";
   $("analyzeCreativeButton").disabled = true;
-  $("aiOutput").innerHTML = `<h3>Analise em andamento</h3><p>O Hydra esta consultando o backend e preparando scores, melhorias e veredito.</p>`;
+  $("aiOutput").innerHTML = `<h3>Análise em andamento</h3><p>O Hydra est? consultando o backend e preparando scores, melhorias e veredito.</p>`;
 
   try {
     let analysis;
@@ -594,13 +594,13 @@ async function analyzeCreativeWithHF() {
     if (!response.ok) throw new Error(`API ${response.status}`);
     analysis = await response.json();
     $("aiStatus").textContent = analysis.source === "heuristic"
-      ? "Analise local do servidor gerada. Verifique HF_TOKEN na Vercel se esperava IA."
-      : "Analise de IA concluida pelo backend.";
+      ? "Análise local do servidor gerada. Verifique HF_TOKEN na Vercel se esperava IA."
+      : "Análise de IA conclu?da pelo backend.";
 
     applyCreativeAnalysis(analysis);
   } catch (error) {
-    const fallback = heuristicCreativeAnalysis(input, `O navegador nao conseguiu chamar /api/analyze-creative: ${error.message}`);
-    $("aiStatus").textContent = `Backend indisponivel (${error.message}). Usei analise local no navegador.`;
+    const fallback = heuristicCreativeAnalysis(input, `O navegador não conseguiu chamar /api/analyze-creative: ${error.message}`);
+    $("aiStatus").textContent = `Backend indisponivel (${error.message}). Usei análise local no navegador.`;
     applyCreativeAnalysis(fallback);
   } finally {
     $("analyzeCreativeButton").disabled = false;
@@ -623,7 +623,7 @@ function applyCreativeAnalysis(raw) {
     suggestedBudget: raw.suggestedBudget || "",
     mainBottleneck: raw.mainBottleneck || "",
     fallbackReason: raw.fallbackReason || "",
-    diagnosis: raw.diagnosis || "Diagnostico indisponivel.",
+    diagnosis: raw.diagnosis || "Diagnóstico indisponivel.",
     improvements: Array.isArray(raw.improvements) ? raw.improvements.slice(0, 6) : [],
     actionPlan: Array.isArray(raw.actionPlan) ? raw.actionPlan.slice(0, 6) : [],
     improvedHeadline: raw.improvedHeadline || "",
@@ -691,17 +691,17 @@ function commercialDecision(analysis = state.aiAnalysis, run = state.lastRun) {
     saturationRisk: clampScore(analysis.attention * 0.22 + analysis.friction * 0.42 + (100 - analysis.offer) * 0.36),
     wasteRisk: clampScore(runWaste),
     killRule: verdict === "revisar"
-      ? "Nao comprar midia antes de corrigir oferta, clareza ou CTA."
+      ? "Não comprar mídia antes de corrigir oferta, clareza ou CTA."
       : `Pausar se CTR ficar abaixo de ${Math.max(0.4, predictedCtr * 0.55).toFixed(2)}% ou CPC passar de R$ ${(predictedCpc * 1.55).toFixed(2)}.`,
     scaleRule: verdict === "escalar"
       ? `Escalar se CTR passar de ${Math.max(1, predictedCtr * 1.12).toFixed(2)}% e CPA ficar abaixo de R$ ${(predictedCpa * 0.9).toFixed(2)}.`
-      : "So escalar depois de uma versao A/B superar o criativo original por CTR, CPC e qualidade dos leads."
+      : "Só escalar depois de uma versão A/B superar o criativo original por CTR, CPC e qualidade dos leads."
   };
 }
 
 function creativeVariants(input = creativeInput(), analysis = state.aiAnalysis) {
   const product = input.product || input.niche || "sua oferta";
-  const audience = input.audience || "publico certo";
+  const audience = input.audience || "público certo";
   const proof = input.proof || "prova social";
   const guarantee = input.guarantee || "baixo risco";
   return [
@@ -709,29 +709,29 @@ function creativeVariants(input = creativeInput(), analysis = state.aiAnalysis) 
       name: "A - Promessa direta",
       angle: "clareza",
       headline: analysis?.improvedHeadline || `${product}: resultado claro para ${audience}`,
-      body: analysis?.improvedBody || `Mostre o principal beneficio, explique para quem e e reduza a duvida antes do clique.`,
+      body: analysis?.improvedBody || `Mostre o principal benefício, explique para quem e e reduza a dúvida antes do clique.`,
       cta: analysis?.improvedCta || input.cta || "Chame no WhatsApp"
     },
     {
       name: "B - Prova social",
-      angle: "confianca",
+      angle: "confiança",
       headline: `${proof}: veja por que ${product} funciona`,
-      body: `Use evidencia real, numeros ou depoimento. Conecte a prova com a objecao principal do publico.`,
+      body: `Use evidência real, números ou depoimento. Conecte a prova com a objeção principal do público.`,
       cta: input.cta || "Quero ver os resultados"
     },
     {
       name: "C - Dor urgente",
-      angle: "atencao",
+      angle: "aten??o",
       headline: `Ainda enfrentando esse problema? ${product} pode encurtar o caminho`,
-      body: `Comece pela dor, mostre consequencia de adiar e apresente a solucao com uma acao simples.`,
+      body: `Comece pela dor, mostre consequência de adiar e apresente a solução com uma ação simples.`,
       cta: input.cta || "Resolver agora"
     },
     {
       name: "D - Redutor de risco",
       angle: "risco",
       headline: `${product} com ${guarantee}`,
-      body: `Tire o medo da primeira acao. Explique como funciona, o que a pessoa recebe e por que o teste e seguro.`,
-      cta: input.cta || "Solicitar avaliacao"
+      body: `Tire o medo da primeira ação. Explique como funciona, o que a pessoa recebe e por que o teste e seguro.`,
+      cta: input.cta || "Solicitar avaliação"
     }
   ];
 }
@@ -740,9 +740,9 @@ function testMatrix(input = creativeInput(), analysis = state.aiAnalysis) {
   const decision = commercialDecision(analysis);
   return creativeVariants(input, analysis).map((variant, index) => ({
     ...variant,
-    audience: index === 0 ? input.stage || "Publico frio" : index === 1 ? "Publico morno / remarketing" : index === 2 ? "Publico frio com dor ativa" : "Publico inseguro",
+    audience: index === 0 ? input.stage || "Público frio" : index === 1 ? "Público morno / remarketing" : index === 2 ? "Público frio com dor ativa" : "Público inseguro",
     budget: decision ? money(Math.max(decision.budgetMin / 4, decision.planned * 0.02)) : "-",
-    metric: index === 1 ? "CPC + comentarios qualificados" : index === 2 ? "CTR + taxa de conversa" : "CTR + CPA",
+    metric: index === 1 ? "CPC + comentários qualificados" : index === 2 ? "CTR + taxa de conversa" : "CTR + CPA",
     decision: "Manter apenas se superar o original ou reduzir risco de verba."
   }));
 }
@@ -759,7 +759,7 @@ function renderCommercialPanels() {
       <div><span>CTR previsto</span><strong>${decision.predictedCtr.toFixed(2)}%</strong></div>
       <div><span>CPC previsto</span><strong>R$ ${decision.predictedCpc.toFixed(2)}</strong></div>
       <div><span>CPA risco</span><strong>R$ ${decision.predictedCpa.toFixed(0)}</strong></div>
-      <div><span>Saturacao</span><strong>${decision.saturationRisk}/100</strong></div>
+      <div><span>Saturação</span><strong>${decision.saturationRisk}/100</strong></div>
     </div>
     <p><strong>Corte:</strong> ${escapeHtml(decision.killRule)}</p>
     <p><strong>Escala:</strong> ${escapeHtml(decision.scaleRule)}</p>
@@ -767,7 +767,7 @@ function renderCommercialPanels() {
 
   $("testMatrixOutput").innerHTML = `
     <table class="reportTable">
-      <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica</th></tr></thead>
+      <thead><tr><th>Teste</th><th>Ângulo</th><th>Público</th><th>Verba</th><th>Métrica</th></tr></thead>
       <tbody>${testMatrix().map((row) => `
         <tr>
           <td>${escapeHtml(row.name)}</td>
@@ -801,7 +801,7 @@ function saveAnalysisSnapshot() {
   try {
     localStorage.setItem("hydraHistory", JSON.stringify(state.history));
   } catch {
-    // Historico local e opcional.
+    // Histórico local e opcional.
   }
   renderHistory();
 }
@@ -817,7 +817,7 @@ function loadHistory() {
 
 function renderHistory() {
   if (!state.history.length) {
-    $("historyOutput").innerHTML = "Nenhuma analise salva ainda.";
+    $("historyOutput").innerHTML = "Nenhuma análise salva ainda.";
     return;
   }
   $("historyOutput").innerHTML = `
@@ -831,7 +831,7 @@ function renderHistory() {
 function compareActualResult() {
   const decision = commercialDecision();
   if (!decision) {
-    $("actualOutput").innerHTML = "Analise um criativo antes de comparar resultado real.";
+    $("actualOutput").innerHTML = "Análise um criativo antes de comparar resultado real.";
     return;
   }
   const actual = {
@@ -856,12 +856,12 @@ function compareActualResult() {
   state.actualComparison = { actual, quality, ctrDelta, cpcDelta, cpaDelta };
   $("actualOutput").innerHTML = `
     <div class="aiScoreGrid">
-      <div><span>Aderencia real</span><strong>${quality}</strong></div>
+      <div><span>Aderência real</span><strong>${quality}</strong></div>
       <div><span>CTR delta</span><strong>${ctrDelta.toFixed(2)}%</strong></div>
       <div><span>CPC delta</span><strong>R$ ${cpcDelta.toFixed(2)}</strong></div>
       <div><span>CPA delta</span><strong>R$ ${cpaDelta.toFixed(0)}</strong></div>
     </div>
-    <p>${quality >= 70 ? "Resultado real acima do previsto: pode virar benchmark positivo no CSV." : quality >= 45 ? "Resultado misto: manter como dado de calibracao e revisar angulo vencedor." : "Resultado abaixo do previsto: registrar como campanha ruim e revisar promessa/oferta antes de novo teste."}</p>
+    <p>${quality >= 70 ? "Resultado real acima do previsto: pode virar benchmark positivo no CSV." : quality >= 45 ? "Resultado misto: manter como dado de calibração e revisar ângulo vencedor." : "Resultado abaixo do previsto: registrar como campanha ruim e revisar promessa/oferta antes de novo teste."}</p>
   `;
   $("reportOutput").innerHTML = generateReportHtml();
 }
@@ -869,16 +869,16 @@ function compareActualResult() {
 function renderAiAnalysis(analysis) {
   const verdict = verdictDisplay(analysis.verdict);
   $("aiOutput").innerHTML = `
-    <h3>Diagnostico Hydra</h3>
+    <h3>Diagnóstico Hydra</h3>
     <div class="aiScoreGrid">
       <div><span>Hydra Score</span><strong>${analysis.hydraScore}</strong></div>
-      <div><span>Atencao</span><strong>${analysis.attention}</strong></div>
+      <div><span>Atenção</span><strong>${analysis.attention}</strong></div>
       <div><span>Clareza</span><strong>${analysis.clarity}</strong></div>
       <div><span>Oferta</span><strong>${analysis.offer}</strong></div>
       <div><span>CTA</span><strong>${analysis.cta}</strong></div>
-      <div><span>Confianca</span><strong>${analysis.trust}</strong></div>
+      <div><span>Confiança</span><strong>${analysis.trust}</strong></div>
       <div><span>Atrito</span><strong>${analysis.friction}</strong></div>
-      <div><span>Aderencia</span><strong>${analysis.audienceFit}</strong></div>
+      <div><span>Aderência</span><strong>${analysis.audienceFit}</strong></div>
       <div><span>Risco verba</span><strong>${analysis.wasteRisk}</strong></div>
       <div class="${verdict.boxClass}"><span>Status</span><strong class="${verdict.textClass}">${verdict.label}</strong></div>
     </div>
@@ -886,12 +886,12 @@ function renderAiAnalysis(analysis) {
     ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
-    ${analysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(analysis.calibration.message)} Confianca: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
+    ${analysis.calibration ? `<p><strong>Calibração:</strong> ${escapeHtml(analysis.calibration.message)} Confiança: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
     <h3>${analysis.mainBottleneck === "entrada invalida" ? "Motivos da reprova" : "Melhorias sugeridas"}</h3>
     <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-    <h3>Plano de acao</h3>
+    <h3>Plano de ação</h3>
     <ul>${analysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-    <h3>Versao sugerida</h3>
+    <h3>Versão sugerida</h3>
     <p><strong>Headline:</strong> ${escapeHtml(analysis.improvedHeadline)}</p>
     <p><strong>Texto:</strong> ${escapeHtml(analysis.improvedBody)}</p>
     <p><strong>CTA:</strong> ${escapeHtml(analysis.improvedCta)}</p>
@@ -1023,7 +1023,7 @@ function updateProgress(done, total) {
   $("runProgress").style.width = `${Math.round(progress * 100)}%`;
   $("runProgressLabel").textContent = pct(progress);
   $("runStatus").textContent = done >= total
-    ? "Simulacao concluida"
+    ? "Simulação conclu?da"
     : `Executando ${done.toLocaleString("pt-BR")} de ${total.toLocaleString("pt-BR")} rodadas`;
 }
 
@@ -1098,7 +1098,7 @@ async function runMonteCarlo() {
   const input = creativeInput();
   if (!state.aiAnalysis && !input.headline && !input.body && !input.offer && !input.cta) {
     $("runStatus").textContent = "Preencha o criativo ou clique em Analisar com IA antes de rodar.";
-    $("reportOutput").innerHTML = "Preencha o criativo, clique em Analisar com IA e depois rode a simulacao.";
+    $("reportOutput").innerHTML = "Preencha o criativo, clique em Analisar com IA e depois rode a simulação.";
     return;
   }
 
@@ -1122,7 +1122,7 @@ async function runMonteCarlo() {
   state.liveStep = 0;
   state.liveFailed = 0;
 
-  $("networkSummary").textContent = `${state.agents.length} pessoas, ${edgeCount(state.graph).toLocaleString("pt-BR")} conexoes`;
+  $("networkSummary").textContent = `${state.agents.length} pessoas, ${edgeCount(state.graph).toLocaleString("pt-BR")} conexões`;
   renderProfiles();
   updateLiveStats(0, 0);
   drawNetwork();
@@ -1257,7 +1257,7 @@ function ideologyLabel(agent) {
   const fit = agent.income * 0.28 + agent.mediaTrust * 0.26 + agent.politicalInterest * 0.24 + agent.education * 0.22;
   if (fit > 0.64) return ["alto fit", "var(--good)"];
   if (fit < 0.38) return ["baixo fit", "var(--accent-2)"];
-  return ["medio fit", "var(--warn)"];
+  return ["médio fit", "var(--warn)"];
 }
 
 function renderProfiles() {
@@ -1276,8 +1276,8 @@ function renderProfiles() {
       return `
         <article class="profile">
           <strong>#${agent.id + 1} ${agent.name}</strong>
-          <p>${agent.age} anos, ${agent.job}, ${agent.religion}, regiao ${agent.region}, ${agent.familySize} filho(s).</p>
-          <p>Grau ${state.graph[agent.id]?.length ?? 0}, influencia ${fmt(agent.influence)}. Interesses: ${agent.interests.join(", ")}.</p>
+          <p>${agent.age} anos, ${agent.job}, ${agent.religion}, região ${agent.region}, ${agent.familySize} filho(s).</p>
+          <p>Grau ${state.graph[agent.id]?.length ?? 0}, influ?ncia ${fmt(agent.influence)}. Interesses: ${agent.interests.join(", ")}.</p>
           <span class="tag" style="background:${color}">${label}</span>
         </article>
       `;
@@ -1340,7 +1340,7 @@ function getPopulationStats(agents) {
     avgIncome: avg("income"),
     avgEducation: avg("education"),
     avgPoliticalInterest: avg("politicalInterest"),
-    avgMediaTrust: avg("mediaTrust"),
+    avgMédiaTrust: avg("mediaTrust"),
     avgSponsorSensitivity: avg("sponsorSensitivity"),
     ideology,
     regionsCount,
@@ -1357,7 +1357,7 @@ function formatDistribution(distribution, total) {
 
 function generateReport() {
   const run = state.lastRun;
-  if (!run) return "Rode uma simulacao para gerar o relatorio.";
+  if (!run) return "Rode uma simulação para gerar o relatório.";
 
   const network = getNetworkStats(state.graph);
   const population = getPopulationStats(state.agents);
@@ -1368,99 +1368,99 @@ function generateReport() {
   const reachedShare = run.avgReach / Math.max(state.agents.length, 1);
   const timestamp = new Date().toLocaleString("pt-BR");
 
-  return `# Relatorio Tecnico - Hydra | Strategy
+  return `# Relatório Tecnico - Hydra | Strategy
 
 Gerado em: ${timestamp}
 Materia analisada: ${run.article.title}
 
-## 1. Objetivo da simulacao
+## 1. Objetivo da simulação
 
-Avaliar, em ambiente sintetico controlado, a propagacao de uma materia jornalistica e o risco associado a reacoes negativas, crise publica e exposicao financeira de patrocinadores. O sistema nao preve comportamento real individual; ele estima cenarios possiveis por meio de populacao artificial, rede complexa e repeticao Monte Carlo.
+Avaliar, em ambiente sintético controlado, a propagação de uma mat?ria jornalistica e o risco associado a reacoes negativas, crise publica e exposicao financeira de patrocinadores. O sistema não prevê comportamento real individual; ele estima cenarios possíveis por meio de população artificial, rede complexa e repeticao Monte Carlo.
 
-## 2. Configuracao experimental
+## 2. Configuração experimental
 
-- Tamanho da populacao: ${state.agents.length.toLocaleString("pt-BR")} agentes sinteticos
-- Modelo de rede: Barabasi-Albert com ligacao preferencial
-- Conexoes totais: ${network.edges.toLocaleString("pt-BR")}
-- Grau medio: ${fmt(network.avgDegree)}
+- Tamanho da população: ${state.agents.length.toLocaleString("pt-BR")} agentes sintéticos
+- Modelo de rede: Barabasi-Albert com ligação preferencial
+- Conexões totais: ${network.edges.toLocaleString("pt-BR")}
+- Grau médio: ${fmt(network.avgDegree)}
 - Grau mediano: ${network.medianDegree}
 - Grau minimo / maximo: ${network.minDegree} / ${network.maxDegree}
 - Rodadas Monte Carlo: ${run.runs.toLocaleString("pt-BR")}
 - Sementes iniciais: ${Number($("seedCount").value)}
 
-## 3. Parametros editoriais da materia
+## 3. Parâmetros editoriais da mat?ria
 
 - Elogio percebido a direita: ${fmt(run.article.rightPraise)}
-- Contextualizacao jornalistica: ${fmt(run.article.contextQuality)}
+- Contextualização jornalistica: ${fmt(run.article.contextQuality)}
 - Tom provocativo: ${fmt(run.article.provocation)}
 - Relevancia local: ${fmt(run.article.localRelevance)}
 
 ## 4. Modelo de agentes
 
-Cada agente possui atributos demograficos, sociais e comportamentais gerados probabilisticamente: profissao, renda sintetica, escolaridade, religiao, regiao, familia, interesses, confianca no jornal, interesse politico e sensibilidade a patrocinadores.
+Cada agente possui atributos demograficos, sociais e comportamentais gerados probabilisticamente: profissão, renda sintética, escolaridade, religião, região, família, interesses, confiança no jornal, interesse pol?tico e sensibilidade a patrocinadores.
 
-Medias da populacao:
+Médias da população:
 
-- Renda sintetica media: ${fmt(population.avgIncome)}
-- Escolaridade sintetica media: ${fmt(population.avgEducation)}
-- Interesse politico medio: ${fmt(population.avgPoliticalInterest)}
-- Confianca media no jornal: ${fmt(population.avgMediaTrust)}
+- Renda sintética media: ${fmt(population.avgIncome)}
+- Escolaridade sintética media: ${fmt(population.avgEducation)}
+- Interesse politico médio: ${fmt(population.avgPoliticalInterest)}
+- Confiança media no jornal: ${fmt(population.avgMédiaTrust)}
 - Sensibilidade media a patrocinadores: ${fmt(population.avgSponsorSensitivity)}
 
-Distribuicao ideologica aproximada:
+Distribuição ideologica aproximada:
 
 ${formatDistribution(population.ideology, state.agents.length)}
 
-Distribuicao regional sintetica:
+Distribuição regional sintética:
 
 ${formatDistribution(population.regionsCount, state.agents.length)}
 
-Distribuicao religiosa sintetica:
+Distribuição religiosa sintética:
 
 ${formatDistribution(population.religionsCount, state.agents.length)}
 
-## 5. Modelo de propagacao
+## 5. Modelo de propagação
 
-A rede foi criada com Barabasi-Albert, produzindo poucos nos muito conectados e muitos nos pouco conectados. A propagacao usa uma versao adaptada do Independent Cascade: cada no ativado tenta influenciar seus vizinhos uma vez, com probabilidade dependente de forca da conexao, influencia do emissor, interesse politico do receptor, relevancia local, confianca no jornal e intensidade emocional.
+A rede foi criada com Barabasi-Albert, produzindo poucos n?s muito conectados e muitos n?s pouco conectados. A propagação usa uma versão adaptada do Independent Cascade: cada nó ativado tenta influ?nciar seus vizinhos uma vez, com probabilidade dependente de força da conexão, influ?ncia do emissor, interesse pol?tico do receptor, relev?ncia local, confiança no jornal e intensidade emocional.
 
-Tipos de reacao:
+Tipos de reação:
 
 - Positiva: o agente tende a aceitar ou compartilhar favoravelmente.
-- Negativa: o agente tende a criticar, amplificar controversia ou pressionar reputacionalmente.
-- Neutra: o agente foi exposto, mas nao apresenta alinhamento forte.
+- Negativa: o agente tende a criticar, amplificar controv?rsia ou pressionar reputacionalmente.
+- Neutra: o agente foi exposto, mas não apresenta alinhamento forte.
 
 ## 6. Resultados agregados
 
-- Alcance medio: ${Math.round(run.avgReach).toLocaleString("pt-BR")} agentes (${pct(reachedShare)} da populacao)
-- Reacao positiva media: ${pct(positiveRate)}
-- Reacao negativa media: ${pct(negativeRate)}
-- Reacao neutra media: ${pct(neutralRate)}
+- Alcance médio: ${Math.round(run.avgReach).toLocaleString("pt-BR")} agentes (${pct(reachedShare)} da população)
+- Reação positiva media: ${pct(positiveRate)}
+- Reação negativa media: ${pct(negativeRate)}
+- Reação neutra media: ${pct(neutralRate)}
 - Chance estimada de crise: ${pct(run.crisisChance)}
-- Indice de risco financeiro: ${fmt(run.financialRisk)}
-- Classificacao de risco financeiro: ${riskLabel(run.financialRisk).toUpperCase()}
+- ?ndice de risco financeiro: ${fmt(run.financialRisk)}
+- Classificação de risco financeiro: ${riskLabel(run.financialRisk).toUpperCase()}
 
 ## 7. Hubs mais relevantes
 
-${network.hubs.map((hub, index) => `${index + 1}. ${hub.name}: grau ${hub.degree}, influencia ${fmt(hub.influence)}`).join("\n")}
+${network.hubs.map((hub, index) => `${index + 1}. ${hub.name}: grau ${hub.degree}, influ?ncia ${fmt(hub.influence)}`).join("\n")}
 
-## 8. Interpretacao tecnica
+## 8. Interpretação tecnica
 
-O risco aumenta quando a materia combina alta provocacao, baixa contextualizacao e grande alcance em hubs politicamente ativos. A contextualizacao funciona como amortecedor: aumenta a probabilidade de leitura tolerante, especialmente entre agentes com confianca previa no jornal. O tom provocativo aumenta alcance emocional, mas tambem eleva a taxa de reacao negativa e a chance de crise.
+O risco aumenta quando a mat?ria combina alta provocação, baixa contextualização e grande alcance em hubs politicamente ativos. A contextualização funciona como amortecedor: aumenta a probabilidade de leitura tolerante, especialmente entre agentes com confiança pr?via no jornal. O tom provocativo aumenta alcance emocional, mas tamb?m eleva a taxa de reação negativa e a chance de crise.
 
 ## 9. Limitacoes
 
-- Os agentes sao sinteticos e nao representam pessoas reais.
-- Regiao, religiao e renda influenciam probabilidades, mas nao determinam ideologia.
-- O modelo ainda nao esta calibrado com dados historicos reais do jornal.
-- O risco financeiro e um indice heuristico, nao uma estimativa monetaria validada.
+- Os agentes sao sintéticos e não representam pessoas reais.
+- Região, religião e renda influ?nciam probabilidades, mas não determinam ideologia.
+- O modelo ainda não esta calibrado com dados históricos reais do jornal.
+- O risco financeiro e um indice heuristico, não uma estimativa monetaria validada.
 
-## 10. Recomendacoes para proxima iteracao
+## 10. Recomendacoes para proxima iteração
 
-- Calibrar probabilidades com dados reais de audiencia, redes sociais e historico de publicacoes.
-- Separar patrocinadores em perfis de sensibilidade por setor economico.
-- Adicionar comparacao A/B entre versoes de titulo e enquadramento editorial.
-- Exportar series por rodada para analise estatistica externa.
-- Incluir intervalos de confianca e percentis de pior caso.`;
+- Calibrar probabilidades com dados reais de audiência, redes sociais e histórico de publicações.
+- Separar patrocinadores em perfis de sensibilidade por setor econômico.
+- Adicionar comparação A/B entre versoes de titulo e enquadramento editorial.
+- Exportar s?ries por rodada para análise estatística externa.
+- Incluir intervalos de confiança e percentis de pior caso.`;
 }
 
 function escapeHtml(value) {
@@ -1563,7 +1563,7 @@ function generateReportHtml() {
         <tr><th>Renda sintética média</th><td>${fmt(population.avgIncome)}</td></tr>
         <tr><th>Escolaridade sintética média</th><td>${fmt(population.avgEducation)}</td></tr>
         <tr><th>Interesse político médio</th><td>${fmt(population.avgPoliticalInterest)}</td></tr>
-        <tr><th>Confiança média no jornal</th><td>${fmt(population.avgMediaTrust)}</td></tr>
+        <tr><th>Confiança média no jornal</th><td>${fmt(population.avgMédiaTrust)}</td></tr>
         <tr><th>Sensibilidade média a patrocinadores</th><td>${fmt(population.avgSponsorSensitivity)}</td></tr>
       </tbody>
     </table>
@@ -1583,7 +1583,7 @@ function generateReportHtml() {
     </table>
 
     <h2>6. Modelo de Propagação</h2>
-    <p>A propagação usa uma versão adaptada do Independent Cascade: cada nó ativado tenta influenciar seus vizinhos uma vez, com probabilidade dependente de força da conexão, influência do emissor, interesse político do receptor, relevância local, confiança no jornal e intensidade emocional. A animação do painel representa uma cascata observável; os resultados agregados vêm das rodadas Monte Carlo.</p>
+    <p>A propagação usa uma versão adaptada do Independent Cascade: cada nó ativado tenta influ?nciar seus vizinhos uma vez, com probabilidade dependente de força da conexão, influência do emissor, interesse político do receptor, relevância local, confiança no jornal e intensidade emocional. A animação do painel representa uma cascata observável; os resultados agregados vêm das rodadas Monte Carlo.</p>
 
     <h2>7. Resultados Agregados</h2>
     <table class="reportTable">
@@ -1608,7 +1608,7 @@ function generateReportHtml() {
     <h2>10. Limitações e Próximas Iterações</h2>
     <ul>
       <li>Os agentes são sintéticos e não representam pessoas reais.</li>
-      <li>Região, religião e renda influenciam probabilidades, mas não determinam ideologia.</li>
+      <li>Região, religião e renda influ?nciam probabilidades, mas não determinam ideologia.</li>
       <li>O modelo ainda precisa ser calibrado com dados históricos reais do jornal.</li>
       <li>O risco financeiro é um índice heurístico, não uma estimativa monetária validada.</li>
       <li>Próxima etapa recomendada: comparação A/B entre títulos, intervalo de confiança e segmentação de patrocinadores.</li>
@@ -1619,7 +1619,7 @@ function generateReportHtml() {
 function generateReportHtml() {
   const run = state.lastRun;
   if (!run && state.aiAnalysis) return generateAiOnlyReportHtml();
-  if (!run) return "Preencha o criativo, clique em Analisar com IA e depois rode a simulacao.";
+  if (!run) return "Preencha o criativo, clique em Analisar com IA e depois rode a simulação.";
 
   const network = getNetworkStats(state.graph);
   const population = getPopulationStats(state.agents);
@@ -1633,10 +1633,10 @@ function generateReportHtml() {
   const decision = commercialDecision(state.aiAnalysis, run);
   const timestamp = new Date().toLocaleString("pt-BR");
   const mediaGuidance = verdict === "escalar"
-    ? "Criativo aprovado para teste com verba maior. Recomenda-se iniciar com campanha controlada e acompanhar CTR, CPC e comentarios negativos nas primeiras horas."
+    ? "Criativo aprovado para teste com verba maior. Recomenda-se iniciar com campanha controlada e acompanhar CTR, CPC e comentários negativos nas primeiras horas."
     : verdict === "testar"
-      ? "Criativo deve entrar apenas em teste pequeno. Recomenda-se limitar verba inicial, rodar variacoes A/B e pausar se o custo por engajamento subir rapidamente."
-      : "Criativo nao recomendado para trafego pago agora. Recomenda-se revisar oferta, promessa, clareza ou nivel de atrito antes de investir verba.";
+      ? "Criativo deve entrar apenas em teste pequeno. Recomenda-se limitar verba inicial, rodar variações A/B e pausar se o custo por engajamento subir rapidamente."
+      : "Criativo não recomendado para tráfego pago agora. Recomenda-se revisar oferta, promessa, clareza ou nivel de atrito antes de investir verba.";
 
   return `
     <section class="reportCover">
@@ -1645,114 +1645,114 @@ function generateReportHtml() {
         <p><strong>Criativo analisado:</strong> ${escapeHtml(run.article.title)}</p>
         <p><strong>Gerado em:</strong> ${timestamp}</p>
       </div>
-      <p>Simulacao de propagacao organica e resposta social antes de investir em trafego pago. O objetivo e reduzir desperdicio de verba, antecipar rejeicao e classificar o criativo como aprovado, em revisao ou reprovado.</p>
+      <p>Simulação de propagação org?nica e resposta social antes de investir em tráfego pago. O objetivo ? reduzir desperd?cio de verba, antecipar rejeição e classificar o criativo como aprovado, em revis?o ou reprovado.</p>
     </section>
 
     <section class="reportKpis">
-      <div><span>Alcance organico medio</span><strong>${Math.round(run.avgReach).toLocaleString("pt-BR")}</strong></div>
+      <div><span>Alcance orgânico médio</span><strong>${Math.round(run.avgReach).toLocaleString("pt-BR")}</strong></div>
       <div><span>Engajamento positivo</span><strong>${pct(engagementRate)}</strong></div>
-      <div><span>Rejeicao</span><strong>${pct(rejectionRate)}</strong></div>
+      <div><span>Rejeição</span><strong>${pct(rejectionRate)}</strong></div>
       <div class="${verdictView.boxClass}"><span>Status</span><strong class="${verdictView.textClass}">${verdictView.label}</strong></div>
     </section>
 
     ${state.aiAnalysis ? `
-      <h2>Diagnostico de IA</h2>
+      <h2>Diagnóstico de IA</h2>
       <section class="reportSignal">
         <div><strong>Hydra Score</strong><span>${state.aiAnalysis.hydraScore}/100</span></div>
-        <div><strong>Atencao</strong><span>${state.aiAnalysis.attention}/100</span></div>
+        <div><strong>Atenção</strong><span>${state.aiAnalysis.attention}/100</span></div>
         <div><strong>Clareza</strong><span>${state.aiAnalysis.clarity}/100</span></div>
         <div><strong>Oferta</strong><span>${state.aiAnalysis.offer}/100</span></div>
-        <div><strong>Confianca</strong><span>${state.aiAnalysis.trust}/100</span></div>
+        <div><strong>Confiança</strong><span>${state.aiAnalysis.trust}/100</span></div>
         <div><strong>Risco verba</strong><span>${state.aiAnalysis.wasteRisk}/100</span></div>
       </section>
       <p>${escapeHtml(state.aiAnalysis.diagnosis)}</p>
       <p><strong>Gargalo principal:</strong> ${escapeHtml(state.aiAnalysis.mainBottleneck || "-")}</p>
       <p><strong>Verba sugerida:</strong> ${escapeHtml(state.aiAnalysis.suggestedBudget || "-")}</p>
-      ${state.aiAnalysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(state.aiAnalysis.calibration.message)} Confianca: ${escapeHtml(state.aiAnalysis.calibration.confidence)}.</p>` : ""}
+      ${state.aiAnalysis.calibration ? `<p><strong>Calibração:</strong> ${escapeHtml(state.aiAnalysis.calibration.message)} Confiança: ${escapeHtml(state.aiAnalysis.calibration.confidence)}.</p>` : ""}
       <ul>${state.aiAnalysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-      <h2>Plano de Acao</h2>
+      <h2>Plano de Ação</h2>
       <ul>${state.aiAnalysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     ` : ""}
 
     <section class="reportSignal">
-      <div><strong>Sinal de oferta</strong><span>${run.article.offerStrength >= 0.7 ? "Oferta forte: boa chance de capturar atencao." : "Oferta ainda fraca: promessa pode precisar de reforco."}</span></div>
-      <div><strong>Sinal de clareza</strong><span>${run.article.messageClarity >= 0.7 ? "Mensagem clara: menor friccao cognitiva." : "Mensagem nebulosa: risco de indiferenca e baixo CTR."}</span></div>
-      <div><strong>Sinal de atrito</strong><span>${run.article.friction >= 0.55 ? "Atrito alto: pode gerar rejeicao e comentarios negativos." : "Atrito controlado: menor chance de queimar verba."}</span></div>
+      <div><strong>Sinal de oferta</strong><span>${run.article.offerStrength >= 0.7 ? "Oferta forte: boa chance de capturar aten??o." : "Oferta ainda fraca: promessa pode precisar de refor?o."}</span></div>
+      <div><strong>Sinal de clareza</strong><span>${run.article.messageClarity >= 0.7 ? "Mensagem clara: menor fric??o cognitiva." : "Mensagem nebulosa: risco de indiferen?a e baixo CTR."}</span></div>
+      <div><strong>Sinal de atrito</strong><span>${run.article.friction >= 0.55 ? "Atrito alto: pode gerar rejeição e comentários negativos." : "Atrito controlado: menor chance de queimar verba."}</span></div>
     </section>
 
     <h2>1. Objetivo do Pre-Teste</h2>
-    <p>Este relatorio avalia um criativo de rede social antes da compra de midia. A simulacao estima como uma populacao sintetica pode reagir ao anuncio, quais grupos tendem a engajar ou ignorar a mensagem e qual o risco de gastar verba em uma peca com baixa aderencia.</p>
+    <p>Este relatório avalia um criativo de rede social antes da compra de mídia. A simulação estima como uma população sintética pode reagir ao anúncio, quais grupos tendem a engajar ou ignorar a mensagem e qual o risco de gastar verba em uma peça com baixa aderência.</p>
 
-    <h2>2. Configuracao Experimental</h2>
+    <h2>2. Configuração Experimental</h2>
     <table class="reportTable">
       <tbody>
-        <tr><th>Populacao sintetica</th><td>${state.agents.length.toLocaleString("pt-BR")} agentes</td></tr>
-        <tr><th>Modelo de rede</th><td>Barabasi-Albert com hubs de influencia</td></tr>
-        <tr><th>Conexoes totais</th><td>${network.edges.toLocaleString("pt-BR")}</td></tr>
-        <tr><th>Grau medio</th><td>${fmt(network.avgDegree)}</td></tr>
+        <tr><th>População sintética</th><td>${state.agents.length.toLocaleString("pt-BR")} agentes</td></tr>
+        <tr><th>Modelo de rede</th><td>Barabasi-Albert com hubs de influ?ncia</td></tr>
+        <tr><th>Conexões totais</th><td>${network.edges.toLocaleString("pt-BR")}</td></tr>
+        <tr><th>Grau médio</th><td>${fmt(network.avgDegree)}</td></tr>
         <tr><th>Rodadas Monte Carlo</th><td>${run.runs.toLocaleString("pt-BR")}</td></tr>
         <tr><th>Sementes iniciais</th><td>${Number($("seedCount").value)}</td></tr>
       </tbody>
     </table>
 
-    <h2>3. Parametros do Criativo</h2>
+    <h2>3. Parâmetros do Criativo</h2>
     <table class="reportTable">
       <tbody>
-        <tr><th>Forca da oferta</th><td>${fmt(run.article.offerStrength)}</td></tr>
+        <tr><th>Força da oferta</th><td>${fmt(run.article.offerStrength)}</td></tr>
         <tr><th>Clareza da mensagem</th><td>${fmt(run.article.messageClarity)}</td></tr>
-        <tr><th>Atrito / polemica</th><td>${fmt(run.article.friction)}</td></tr>
-        <tr><th>Aderencia ao publico</th><td>${fmt(run.article.audienceFit)}</td></tr>
+        <tr><th>Atrito / pol?mica</th><td>${fmt(run.article.friction)}</td></tr>
+        <tr><th>Aderência ao público</th><td>${fmt(run.article.audienceFit)}</td></tr>
       </tbody>
     </table>
 
-    <h2>4. Leitura da Populacao</h2>
-    <p>Os agentes sinteticos combinam renda, escolaridade, religiao, regiao, interesses, confianca media em comunicacao e propensao social a compartilhar. Para uso de marketing, os perfis sao agrupados por fit comercial, nao por ideologia.</p>
+    <h2>4. Leitura da População</h2>
+    <p>Os agentes sintéticos combinam renda, escolaridade, religião, região, interesses, confiança media em comunicação e propensao social a compartilhar. Para uso de marketing, os perfis sao agrupados por fit comercial, não por ideologia.</p>
     <table class="reportTable">
       <tbody>
-        <tr><th>Renda sintetica media</th><td>${fmt(population.avgIncome)}</td></tr>
-        <tr><th>Escolaridade sintetica media</th><td>${fmt(population.avgEducation)}</td></tr>
+        <tr><th>Renda sintética media</th><td>${fmt(population.avgIncome)}</td></tr>
+        <tr><th>Escolaridade sintética media</th><td>${fmt(population.avgEducation)}</td></tr>
         <tr><th>Propensao social media</th><td>${fmt(population.avgPoliticalInterest)}</td></tr>
-        <tr><th>Confianca media em comunicacao</th><td>${fmt(population.avgMediaTrust)}</td></tr>
+        <tr><th>Confiança media em comunicação</th><td>${fmt(population.avgMédiaTrust)}</td></tr>
         <tr><th>Sensibilidade a risco de marca</th><td>${fmt(population.avgSponsorSensitivity)}</td></tr>
       </tbody>
     </table>
 
-    <h2>5. Distribuicoes Sinteticas</h2>
+    <h2>5. Distribuições Sinteticas</h2>
     <table class="reportTable">
-      <thead><tr><th>Fit comercial</th><th>Agentes</th><th>Participacao</th></tr></thead>
+      <thead><tr><th>Fit comercial</th><th>Agentes</th><th>Participação</th></tr></thead>
       <tbody>${rowsFromDistribution(population.ideology, state.agents.length)}</tbody>
     </table>
     <table class="reportTable">
-      <thead><tr><th>Regiao</th><th>Agentes</th><th>Participacao</th></tr></thead>
+      <thead><tr><th>Região</th><th>Agentes</th><th>Participação</th></tr></thead>
       <tbody>${rowsFromDistribution(population.regionsCount, state.agents.length)}</tbody>
     </table>
 
-    <h2>6. Modelo de Propagacao</h2>
-    <p>A animacao mostra uma cascata observavel: cada no engajado tenta transmitir o criativo para seus vizinhos. Conexoes verdes representam engajamentos que propagaram; conexoes vermelhas representam impressoes frias ou tentativas sem resposta. Os resultados finais sao consolidados por Monte Carlo.</p>
+    <h2>6. Modelo de Propagação</h2>
+    <p>A animação mostra uma cascata observavel: cada nó engajado tenta transmitir o criativo para seus vizinhos. Conexões verdes representam engajamentos que propagaram; conexões vermelhas representam impressões frias ou tentativas sem resposta. Os resultados finais sao consolidados por Monte Carlo.</p>
 
     <h2>7. Resultados Agregados</h2>
     <table class="reportTable">
       <tbody>
-        <tr><th>Alcance organico medio</th><td>${Math.round(run.avgReach).toLocaleString("pt-BR")} agentes (${pct(reachedShare)} da populacao)</td></tr>
-        <tr><th>Engajamento positivo medio</th><td>${pct(engagementRate)}</td></tr>
-        <tr><th>Rejeicao media</th><td>${pct(rejectionRate)}</td></tr>
-        <tr><th>Indiferenca media</th><td>${pct(ignoredRate)}</td></tr>
-        <tr><th>Risco de desperdicio</th><td>${pct(run.crisisChance)}</td></tr>
-        <tr><th>Indice de desperdicio de verba</th><td>${fmt(run.financialRisk)}</td></tr>
+        <tr><th>Alcance orgânico médio</th><td>${Math.round(run.avgReach).toLocaleString("pt-BR")} agentes (${pct(reachedShare)} da população)</td></tr>
+        <tr><th>Engajamento positivo médio</th><td>${pct(engagementRate)}</td></tr>
+        <tr><th>Rejeição media</th><td>${pct(rejectionRate)}</td></tr>
+        <tr><th>Indiferen?a media</th><td>${pct(ignoredRate)}</td></tr>
+        <tr><th>Risco de desperd?cio</th><td>${pct(run.crisisChance)}</td></tr>
+        <tr><th>?ndice de desperd?cio de verba</th><td>${fmt(run.financialRisk)}</td></tr>
       </tbody>
     </table>
 
     <h2>8. Hubs Mais Relevantes</h2>
     <ol>
-      ${network.hubs.map((hub) => `<li>${escapeHtml(hub.name)}: grau ${hub.degree}, influencia ${fmt(hub.influence)}</li>`).join("")}
+      ${network.hubs.map((hub) => `<li>${escapeHtml(hub.name)}: grau ${hub.degree}, influ?ncia ${fmt(hub.influence)}</li>`).join("")}
     </ol>
 
     ${decision ? `
       <h2>9. Plano de Teste Pago</h2>
       <section class="reportSignal">
         <div><strong>Score financeiro</strong><span>${decision.financialScore}/100</span></div>
-        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Nao investir"}</span></div>
-        <div><strong>Duracao</strong><span>${decision.days || 0} dia(s)</span></div>
+        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Não investir"}</span></div>
+        <div><strong>Duração</strong><span>${decision.days || 0} dia(s)</span></div>
         <div><strong>CTR previsto</strong><span>${decision.predictedCtr.toFixed(2)}%</span></div>
         <div><strong>CPC previsto</strong><span>R$ ${decision.predictedCpc.toFixed(2)}</span></div>
         <div><strong>CPA risco</strong><span>R$ ${decision.predictedCpa.toFixed(0)}</span></div>
@@ -1762,49 +1762,49 @@ function generateReportHtml() {
 
       <h2>10. Matriz de Testes A/B</h2>
       <table class="reportTable">
-        <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica principal</th></tr></thead>
+        <thead><tr><th>Teste</th><th>Ângulo</th><th>Público</th><th>Verba</th><th>Métrica principal</th></tr></thead>
         <tbody>${testMatrix().map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.angle)}</td><td>${escapeHtml(row.audience)}</td><td>${escapeHtml(row.budget)}</td><td>${escapeHtml(row.metric)}</td></tr>`).join("")}</tbody>
       </table>
 
       <h2>11. Versoes Criativas Sugeridas</h2>
       <table class="reportTable">
-        <thead><tr><th>Versao</th><th>Headline</th><th>CTA</th></tr></thead>
+        <thead><tr><th>Versão</th><th>Headline</th><th>CTA</th></tr></thead>
         <tbody>${creativeVariants().map((variant) => `<tr><td>${escapeHtml(variant.name)}</td><td>${escapeHtml(variant.headline)}</td><td>${escapeHtml(variant.cta)}</td></tr>`).join("")}</tbody>
       </table>
     ` : ""}
 
     ${state.actualComparison ? `
-      <h2>12. Comparacao Previsto vs Real</h2>
+      <h2>12. Comparação Previsto vs Real</h2>
       <section class="reportSignal">
-        <div><strong>Aderencia real</strong><span>${state.actualComparison.quality}/100</span></div>
+        <div><strong>Aderência real</strong><span>${state.actualComparison.quality}/100</span></div>
         <div><strong>CTR delta</strong><span>${state.actualComparison.ctrDelta.toFixed(2)}%</span></div>
         <div><strong>CPC delta</strong><span>R$ ${state.actualComparison.cpcDelta.toFixed(2)}</span></div>
       </section>
     ` : ""}
 
-    <h2>13. Banco Sintetico de Personas</h2>
-    <p>Total listado: ${state.agents.length.toLocaleString("pt-BR")} personas. Cada item representa um no da rede usado na simulacao.</p>
+    <h2>13. Banco Sintético de Personas</h2>
+    <p>Total listado: ${state.agents.length.toLocaleString("pt-BR")} personas. Cada item representa um no da rede usado na simulação.</p>
     <section class="personaAppendix">
       ${personaAppendixHtml()}
     </section>
 
-    <h2>14. Recomendacao de Midia</h2>
+    <h2>14. Recomendação de Midia</h2>
     <section class="reportVerdict ${verdictView.boxClass}">
       <p><strong>Status:</strong> <span class="${verdictView.textClass}">${verdictView.label}</span>.</p>
       <p>${mediaGuidance}</p>
     </section>
 
-    <h2>15. Interpretacao Tecnica</h2>
-    <p>Um criativo tende a performar melhor quando combina oferta forte, mensagem clara e aderencia ao publico. Atrito alto pode aumentar propagacao por curiosidade ou controversia, mas tambem eleva rejeicao e risco de comentarios negativos. Se a indiferenca for alta, o problema provavel nao e rejeicao, mas falta de apelo ou promessa pouco compreensivel.</p>
+    <h2>15. Interpretação Tecnica</h2>
+    <p>Um criativo tende a performar melhor quando combina oferta forte, mensagem clara e aderência ao público. Atrito alto pode aumentar propagação por curiosidade ou controv?rsia, mas tamb?m eleva rejeição e risco de comentários negativos. Se a indiferen?a for alta, o problema prov?vel não e rejeição, mas falta de apelo ou promessa pouco compreens?vel.</p>
 
     <h2>16. Aviso Legal e Uso Correto</h2>
-    <p>O Hydra e um sistema de pre-teste e apoio a decisao. Ele nao garante resultado de midia paga, nao substitui validacao real e deve ser usado para reduzir desperdicio, organizar hipoteses e definir criterios antes da compra de trafego.</p>
+    <p>O Hydra ? um sistema de pré-teste e apoio a decisão. Ele não garante resultado de mídia paga, não substitui validação real e deve ser usado para reduzir desperd?cio, organizar hip?teses e definir critérios antes da compra de tráfego.</p>
 
-    <h2>17. Proximas Iteracoes Recomendadas</h2>
+    <h2>17. Próximas Iterações Recomendadas</h2>
     <ul>
-      <li>Criar 3 variacoes A/B: uma com oferta mais direta, uma com headline mais clara e uma com menor atrito.</li>
-      <li>Calibrar o modelo com CTR, CPC, CPM, comentarios negativos e taxa de conversao de campanhas reais.</li>
-      <li>Adicionar persona-alvo por nicho: e-commerce, clinica, infoproduto, restaurante, servico local ou B2B.</li>
+      <li>Criar 3 variações A/B: uma com oferta mais direta, uma com headline mais clara e uma com menor atrito.</li>
+      <li>Calibrar o modelo com CTR, CPC, CPM, comentários negativos e taxa de conversão de campanhas reais.</li>
+      <li>Adicionar persona-alvo por nicho: e-commerce, cl?nica, infoproduto, restaurante, serviço local ou B2B.</li>
       <li>Incluir estimativa de verba inicial recomendada para teste controlado.</li>
     </ul>
   `;
@@ -1817,10 +1817,10 @@ function generateAiOnlyReportHtml() {
   const verdictView = verdictDisplay(analysis.verdict);
   const decision = commercialDecision(analysis);
   const mediaGuidance = analysis.verdict === "escalar"
-    ? "O criativo tem bons sinais antes da compra de midia. Ainda assim, a recomendacao e validar com verba controlada e acompanhar os primeiros indicadores reais."
+    ? "O criativo tem bons sinais antes da compra de mídia. Ainda assim, a recomendação ? validar com verba controlada e acompanhar os primeiros indicadores reais."
     : analysis.verdict === "testar"
-      ? "O criativo tem potencial, mas nao deve receber verba alta ainda. Rode teste pequeno ou revise os pontos fracos antes de escalar."
-      : "O criativo ainda nao deveria receber verba. Ajuste promessa, oferta, clareza ou CTA antes de abrir campanha.";
+      ? "O criativo tem potencial, mas não deve receber verba alta ainda. Rode teste pequeno ou revise os pontos fracos antes de escalar."
+      : "O criativo ainda não deveria receber verba. Ajuste promessa, oferta, clareza ou CTA antes de abrir campanha.";
 
   return `
     <section class="reportCover">
@@ -1829,12 +1829,12 @@ function generateAiOnlyReportHtml() {
         <p><strong>Criativo analisado:</strong> ${escapeHtml(input.campaign || "Sem nome de campanha")}</p>
         <p><strong>Gerado em:</strong> ${timestamp}</p>
       </div>
-      <p>Diagnostico pre-trafego gerado antes da simulacao. Esta etapa avalia se a estrategia criativa merece entrar em teste pago ou se precisa ser revisada primeiro.</p>
+      <p>Diagnóstico pre-tráfego gerado antes da simulação. Esta etapa avalia se a estrategia criativa merece entrar em teste pago ou se precisa ser revisada primeiro.</p>
     </section>
 
     <section class="reportKpis">
       <div><span>Hydra Score</span><strong>${analysis.hydraScore}</strong></div>
-      <div><span>Atencao</span><strong>${analysis.attention}</strong></div>
+      <div><span>Atenção</span><strong>${analysis.attention}</strong></div>
       <div><span>Clareza</span><strong>${analysis.clarity}</strong></div>
       <div class="${verdictView.boxClass}"><span>Status</span><strong class="${verdictView.textClass}">${verdictView.label}</strong></div>
     </section>
@@ -1842,9 +1842,9 @@ function generateAiOnlyReportHtml() {
     <section class="reportSignal">
       <div><strong>Oferta</strong><span>${analysis.offer}/100</span></div>
       <div><strong>CTA</strong><span>${analysis.cta}/100</span></div>
-      <div><strong>Confianca</strong><span>${analysis.trust}/100</span></div>
+      <div><strong>Confiança</strong><span>${analysis.trust}/100</span></div>
       <div><strong>Atrito</strong><span>${analysis.friction}/100</span></div>
-      <div><strong>Aderencia</strong><span>${analysis.audienceFit}/100</span></div>
+      <div><strong>Aderência</strong><span>${analysis.audienceFit}/100</span></div>
       <div><strong>Risco de verba</strong><span>${analysis.wasteRisk}/100</span></div>
     </section>
 
@@ -1854,12 +1854,12 @@ function generateAiOnlyReportHtml() {
         <tr><th>Nicho</th><td>${escapeHtml(input.niche || "-")}</td></tr>
         <tr><th>Canal</th><td>${escapeHtml(input.channel || "-")}</td></tr>
         <tr><th>Objetivo</th><td>${escapeHtml(input.objective || "-")}</td></tr>
-        <tr><th>Produto/servico</th><td>${escapeHtml(input.product || "-")}</td></tr>
-        <tr><th>Ticket medio</th><td>${escapeHtml(input.ticket || "-")}</td></tr>
-        <tr><th>Publico-alvo</th><td>${escapeHtml(input.audience || "-")}</td></tr>
-        <tr><th>Estagio do publico</th><td>${escapeHtml(input.stage || "-")}</td></tr>
+        <tr><th>Produto/serviço</th><td>${escapeHtml(input.product || "-")}</td></tr>
+        <tr><th>Ticket médio</th><td>${escapeHtml(input.ticket || "-")}</td></tr>
+        <tr><th>Público-alvo</th><td>${escapeHtml(input.audience || "-")}</td></tr>
+        <tr><th>Estágio do público</th><td>${escapeHtml(input.stage || "-")}</td></tr>
         <tr><th>Verba planejada</th><td>${escapeHtml(input.plannedBudget || "-")}</td></tr>
-        <tr><th>Objecao principal</th><td>${escapeHtml(input.objection || "-")}</td></tr>
+        <tr><th>Objeção principal</th><td>${escapeHtml(input.objection || "-")}</td></tr>
         <tr><th>Prova social</th><td>${escapeHtml(input.proof || "-")}</td></tr>
         <tr><th>Garantia</th><td>${escapeHtml(input.guarantee || "-")}</td></tr>
       </tbody>
@@ -1875,20 +1875,20 @@ function generateAiOnlyReportHtml() {
       </tbody>
     </table>
 
-    <h2>3. Diagnostico</h2>
+    <h2>3. Diagnóstico</h2>
     <p>${escapeHtml(analysis.diagnosis)}</p>
     ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
-    ${analysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(analysis.calibration.message)} Confianca: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
+    ${analysis.calibration ? `<p><strong>Calibração:</strong> ${escapeHtml(analysis.calibration.message)} Confiança: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
 
     <h2>4. Melhorias Sugeridas</h2>
     <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
 
-    <h2>5. Plano de Acao</h2>
+    <h2>5. Plano de Ação</h2>
     <ul>${analysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
 
-    <h2>6. Versao Sugerida</h2>
+    <h2>6. Versão Sugerida</h2>
     <table class="reportTable">
       <tbody>
         <tr><th>Headline sugerida</th><td>${escapeHtml(analysis.improvedHeadline || "-")}</td></tr>
@@ -1897,7 +1897,7 @@ function generateAiOnlyReportHtml() {
       </tbody>
     </table>
 
-    <h2>7. Recomendacao Antes da Verba</h2>
+    <h2>7. Recomendação Antes da Verba</h2>
     <section class="reportVerdict ${verdictView.boxClass}">
       <p><strong>Status:</strong> <span class="${verdictView.textClass}">${verdictView.label}</span>.</p>
       <p>${mediaGuidance}</p>
@@ -1907,8 +1907,8 @@ function generateAiOnlyReportHtml() {
       <h2>8. Plano de Teste Pago</h2>
       <section class="reportSignal">
         <div><strong>Score financeiro</strong><span>${decision.financialScore}/100</span></div>
-        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Nao investir"}</span></div>
-        <div><strong>Duracao</strong><span>${decision.days || 0} dia(s)</span></div>
+        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Não investir"}</span></div>
+        <div><strong>Duração</strong><span>${decision.days || 0} dia(s)</span></div>
         <div><strong>CTR previsto</strong><span>${decision.predictedCtr.toFixed(2)}%</span></div>
         <div><strong>CPC previsto</strong><span>R$ ${decision.predictedCpc.toFixed(2)}</span></div>
         <div><strong>CPA risco</strong><span>R$ ${decision.predictedCpa.toFixed(0)}</span></div>
@@ -1918,31 +1918,31 @@ function generateAiOnlyReportHtml() {
 
       <h2>9. Matriz de Testes A/B</h2>
       <table class="reportTable">
-        <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica principal</th></tr></thead>
+        <thead><tr><th>Teste</th><th>Ângulo</th><th>Público</th><th>Verba</th><th>Métrica principal</th></tr></thead>
         <tbody>${testMatrix(input, analysis).map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.angle)}</td><td>${escapeHtml(row.audience)}</td><td>${escapeHtml(row.budget)}</td><td>${escapeHtml(row.metric)}</td></tr>`).join("")}</tbody>
       </table>
 
       <h2>10. Versoes Criativas Sugeridas</h2>
       <table class="reportTable">
-        <thead><tr><th>Versao</th><th>Headline</th><th>CTA</th></tr></thead>
+        <thead><tr><th>Versão</th><th>Headline</th><th>CTA</th></tr></thead>
         <tbody>${creativeVariants(input, analysis).map((variant) => `<tr><td>${escapeHtml(variant.name)}</td><td>${escapeHtml(variant.headline)}</td><td>${escapeHtml(variant.cta)}</td></tr>`).join("")}</tbody>
       </table>
     ` : ""}
 
     ${state.actualComparison ? `
-      <h2>11. Comparacao Previsto vs Real</h2>
+      <h2>11. Comparação Previsto vs Real</h2>
       <section class="reportSignal">
-        <div><strong>Aderencia real</strong><span>${state.actualComparison.quality}/100</span></div>
+        <div><strong>Aderência real</strong><span>${state.actualComparison.quality}/100</span></div>
         <div><strong>CTR delta</strong><span>${state.actualComparison.ctrDelta.toFixed(2)}%</span></div>
         <div><strong>CPC delta</strong><span>R$ ${state.actualComparison.cpcDelta.toFixed(2)}</span></div>
       </section>
     ` : ""}
 
     <h2>12. Aviso Legal e Uso Correto</h2>
-    <p>O Hydra e um sistema de pre-teste e apoio a decisao. Ele nao garante resultado de midia paga, nao substitui validacao real e deve ser usado para reduzir desperdicio, organizar hipoteses e definir criterios antes da compra de trafego.</p>
+    <p>O Hydra ? um sistema de pré-teste e apoio a decisão. Ele não garante resultado de mídia paga, não substitui validação real e deve ser usado para reduzir desperd?cio, organizar hip?teses e definir critérios antes da compra de tráfego.</p>
 
-    <h2>13. Proxima Acao</h2>
-    <p>Depois de ajustar o criativo, clique em Rodar para simular a propagacao sintetica e complementar este relatorio com alcance organico, rejeicao, indiferenca e risco de desperdicio.</p>
+    <h2>13. Proxima Ação</h2>
+    <p>Depois de ajustar o criativo, clique em Rodar para simular a propagação sintética e complementar este relatório com alcance orgânico, rejeição, indiferen?a e risco de desperd?cio.</p>
   `;
 }
 
