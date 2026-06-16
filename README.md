@@ -41,6 +41,7 @@ A rota pede resposta JSON estruturada para reduzir falhas de parsing. Se o model
 A analise gera:
 
 - Hydra Score;
+- score financeiro;
 - score de atencao;
 - clareza;
 - oferta;
@@ -51,8 +52,20 @@ A analise gera:
 - veredito: revisar, testar ou escalar;
 - gargalo principal;
 - verba sugerida;
+- plano de teste pago;
+- matriz de criativos A/B;
+- criterios de corte e escala;
 - plano de acao;
 - versao melhorada do criativo.
+
+## Camada comercial
+
+Depois de clicar em `Analisar com IA`, o Hydra tambem monta:
+
+- `Decisao Comercial`: status, score financeiro, verba inicial sugerida, dias de teste, CTR/CPC/CPA estimados, risco de saturacao, regra de corte e regra de escala.
+- `Matriz de Testes`: quatro variacoes recomendadas para teste A/B, com angulo, publico, verba e metrica principal.
+- `Previsto vs Real`: depois que a campanha real rodar, informe CTR, CPC, CPA, conversoes, verba gasta e comentarios negativos para comparar previsao e performance real.
+- `Historico Local`: guarda no navegador as ultimas analises para consulta rapida.
 
 ## Deploy na Vercel
 
@@ -82,11 +95,44 @@ Ao final da execucao, o sistema gera um relatorio de pre-trafego com:
 - parametros do criativo;
 - resultados agregados da cascata;
 - hubs mais relevantes;
+- plano de teste pago;
+- matriz A/B;
+- versoes criativas sugeridas;
+- comparacao previsto vs real, quando preenchida;
+- banco sintetico completo de personas;
 - recomendacao de midia;
 - limitacoes e proximas iteracoes.
 
 Use `Copiar` para enviar o relatorio para a area de transferencia ou `Baixar PDF` para abrir a impressao do navegador formatada em A4. Na janela de impressao, escolha `Salvar como PDF`.
 
+## Como alimentar o historico real
+
+Edite o arquivo:
+
+```text
+data/campaign-history.csv
+```
+
+Formato esperado:
+
+```csv
+niche,channel,objective,ctr,cpc,cpa,conversions,spend,result
+clinica estetica,Meta Ads,WhatsApp,3.2,1.5,18,12,300,bom
+clinica estetica,Meta Ads,WhatsApp,0.8,4.5,70,1,200,ruim
+```
+
+Depois de alterar o CSV:
+
+1. faca commit no GitHub;
+2. aguarde o redeploy da Vercel;
+3. abra o Hydra;
+4. o painel `Calibracao Real` carregara automaticamente `/api/calibration`.
+
+Quanto mais linhas reais, melhor:
+
+- 10 campanhas parecidas: confianca media;
+- 30 ou mais campanhas parecidas: confianca alta.
+
 ## Observacao metodologica
 
-Os perfis sao sinteticos. Caracteristicas como regiao, religiao e renda influenciam probabilidades, mas nao determinam comportamento individual. O sistema deve ser usado como laboratorio de cenarios e triagem de criativos, nao como previsao exata de performance.
+Os perfis sao sinteticos. Caracteristicas como regiao, religiao e renda influenciam probabilidades, mas nao determinam comportamento individual. O sistema deve ser usado como laboratorio de cenarios, triagem de criativos e apoio a decisao, nao como garantia de performance em midia paga.

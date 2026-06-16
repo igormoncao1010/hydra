@@ -1,14 +1,40 @@
-const names = [
-  "Ana Carolina Souza", "Marcos Vinicius Lima", "Beatriz Andrade", "Joao Pedro Martins",
-  "Camila Nogueira", "Rafael Teixeira", "Juliana Batista", "Felipe Azevedo",
-  "Patricia Gomes", "Lucas Ferreira", "Fernanda Rocha", "Bruno Cavalcante"
+const firstNames = [
+  "Ana Carolina", "Marcos Vinicius", "Beatriz", "Joao Pedro", "Camila", "Rafael",
+  "Juliana", "Felipe", "Patricia", "Lucas", "Fernanda", "Bruno", "Aline", "Gustavo",
+  "Larissa", "Thiago", "Mariana", "Eduardo", "Isabela", "Rodrigo", "Leticia", "Caio",
+  "Priscila", "Daniel", "Renata", "Andre", "Sabrina", "Vinicius", "Carla", "Matheus",
+  "Bianca", "Leandro", "Natalia", "Henrique", "Tatiane", "Diego", "Vanessa", "Samuel",
+  "Luana", "Cesar", "Helena", "Miguel", "Claudia", "Paulo", "Debora", "Igor",
+  "Mirela", "Otavio", "Yasmin", "Wesley"
+];
+
+const lastNames = [
+  "Souza", "Lima", "Andrade", "Martins", "Nogueira", "Teixeira", "Batista", "Azevedo",
+  "Gomes", "Ferreira", "Rocha", "Cavalcante", "Oliveira", "Santos", "Pereira", "Costa",
+  "Almeida", "Barbosa", "Cardoso", "Ribeiro", "Moura", "Correia", "Dantas", "Freitas",
+  "Vieira", "Mendes", "Moreira", "Araujo", "Campos", "Monteiro", "Rezende", "Macedo",
+  "Farias", "Assis", "Tavares", "Moraes", "Pinto", "Carvalho", "Borges", "Sales"
 ];
 
 const jobs = [
   ["enfermeira", 0.48], ["medico", 0.86], ["caixa de supermercado", 0.24],
   ["professora", 0.42], ["advogado", 0.74], ["empreendedora", 0.66],
   ["motorista de aplicativo", 0.32], ["servidora publica", 0.52],
-  ["engenheiro", 0.78], ["comerciante", 0.58]
+  ["engenheiro", 0.78], ["comerciante", 0.58], ["designer", 0.55],
+  ["programador", 0.72], ["analista financeiro", 0.68], ["contador", 0.62],
+  ["vendedor", 0.38], ["gerente comercial", 0.7], ["corretor de imoveis", 0.64],
+  ["psicologa", 0.6], ["dentista", 0.8], ["fisioterapeuta", 0.58],
+  ["farmaceutica", 0.57], ["nutricionista", 0.56], ["personal trainer", 0.5],
+  ["barbeiro", 0.42], ["cabeleireira", 0.4], ["manicure", 0.34],
+  ["cozinheira", 0.33], ["chef de cozinha", 0.62], ["garcom", 0.28],
+  ["recepcionista", 0.32], ["secretaria", 0.36], ["assistente administrativo", 0.4],
+  ["mecanico", 0.44], ["eletricista", 0.46], ["pedreiro", 0.35],
+  ["arquiteta", 0.76], ["veterinaria", 0.7], ["policial", 0.52],
+  ["bombeiro", 0.5], ["militar", 0.54], ["produtora de conteudo", 0.58],
+  ["influenciador local", 0.66], ["fotografa", 0.52], ["jornalista", 0.55],
+  ["publicitaria", 0.6], ["consultor", 0.72], ["produtor rural", 0.5],
+  ["agricultora", 0.42], ["caminhoneiro", 0.48], ["estudante", 0.22],
+  ["aposentada", 0.38], ["dona de casa", 0.3], ["empresario", 0.82]
 ];
 
 const regions = [
@@ -18,12 +44,23 @@ const regions = [
 
 const religions = [
   ["evangelica", 0.32], ["catolica", 0.08], ["sem religiao", -0.22],
-  ["espirita", -0.02], ["outra", 0.0]
+  ["espirita", -0.02], ["umbandista", -0.04], ["candomblecista", -0.05],
+  ["judaica", 0.02], ["islamica", 0.01], ["budista", -0.08],
+  ["hinduista", -0.06], ["ateia", -0.25], ["agnostica", -0.18],
+  ["testemunha de jeova", 0.18], ["adventista", 0.22], ["mormon", 0.2],
+  ["outra", 0.0]
 ];
 
 const interests = [
   "familia", "futebol", "basquete", "animes", "livros", "carros esportivos",
-  "golf", "igreja", "viagens", "politica local", "saude", "educacao"
+  "golf", "igreja", "viagens", "politica local", "saude", "educacao",
+  "corrida", "ciclismo", "musculacao", "crossfit", "natacao", "volei",
+  "tenis", "skate", "surf", "jiu-jitsu", "boxe", "mma", "handebol",
+  "xadrez", "games", "cinema", "series", "teatro", "musica", "violao",
+  "piano", "fotografia", "culinaria", "jardinagem", "moda", "maquiagem",
+  "tecnologia", "podcasts", "investimentos", "empreendedorismo",
+  "carros antigos", "motos", "pesca", "trilhas", "camping", "praia",
+  "vinhos", "cafes especiais", "artesanato", "decoracao", "voluntariado"
 ];
 
 const state = {
@@ -36,7 +73,10 @@ const state = {
   visualAttempts: [],
   liveStep: 0,
   liveFailed: 0,
-  aiAnalysis: null
+  aiAnalysis: null,
+  calibrationRows: [],
+  history: [],
+  actualComparison: null
 };
 
 const $ = (id) => document.getElementById(id);
@@ -57,6 +97,15 @@ function normalish() {
   return (Math.random() + Math.random() + Math.random()) / 3;
 }
 
+function makeName(id) {
+  const firstName = firstNames[id % firstNames.length];
+  const firstLast = lastNames[Math.floor(id / firstNames.length) % lastNames.length];
+  const secondLast = lastNames[(id * 7 + 11) % lastNames.length];
+  return secondLast === firstLast
+    ? `${firstName} ${firstLast}`
+    : `${firstName} ${firstLast} ${secondLast}`;
+}
+
 function makeAgent(id) {
   const [job, incomeBase] = pick(jobs);
   const [region, regionBias] = pick(regions);
@@ -71,12 +120,12 @@ function makeAgent(id) {
   const economicAxis = clamp(0.5 + regionBias + (income - 0.5) * 0.38 + rand(-0.34, 0.34));
   const customsAxis = clamp(0.5 + religionBias + (age - 38) / 150 + rand(-0.28, 0.28));
   const sponsorSensitivity = clamp(income * 0.35 + politicalInterest * 0.3 + rand(0, 0.35));
-  const familySize = Math.max(0, Math.round(rand(-0.2, 4.8)));
+  const familySize = Math.round(rand(0, 10));
   const personInterests = [...new Set([pick(interests), pick(interests), pick(interests)])];
 
   return {
     id,
-    name: pick(names),
+    name: makeName(id),
     age,
     job,
     region,
@@ -232,6 +281,189 @@ function inputQuality(input) {
   const invalid = details.filter((item) => item.score < 35).map((item) => item.label);
   const average = Math.round(details.reduce((sum, item) => sum + item.score, 0) / details.length);
   return { average, valid, invalid, isNoise: average < 32 || valid.length < 3 };
+}
+
+function parseNumber(value) {
+  if (value === undefined || value === null) return 0;
+  const match = String(value).replace("R$", "").replace("%", "").match(/-?\d+(?:[.,]\d+)?/);
+  if (!match) return 0;
+  const raw = match[0];
+  const normalized = raw.includes(",") ? raw.replace(/\./g, "").replace(",", ".") : raw;
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function splitCsvLine(line) {
+  const cells = [];
+  let current = "";
+  let quoted = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    if (char === '"') {
+      quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      cells.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  cells.push(current.trim());
+  return cells;
+}
+
+function parseCalibrationCsv(csv) {
+  const lines = csv.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = splitCsvLine(lines[0]).map((header) => header.toLowerCase());
+  return lines.slice(1).map((line) => {
+    const cells = splitCsvLine(line);
+    const row = {};
+    headers.forEach((header, index) => {
+      row[header] = cells[index] || "";
+    });
+    return normalizeCalibrationRow(row);
+  }).filter(Boolean);
+}
+
+function normalizeCalibrationRow(row) {
+  const ctr = parseNumber(row.ctr);
+  const cpc = parseNumber(row.cpc);
+  const cpa = parseNumber(row.cpa);
+  const conversions = parseNumber(row.conversions);
+  const spend = parseNumber(row.spend);
+  const result = String(row.result || row.performance || "").toLowerCase();
+  const positiveResult = /(bom|good|winner|ganhou|escala|lucro|aprovado)/i.test(result);
+  const negativeResult = /(ruim|bad|loser|perdeu|reprovado|baixo)/i.test(result);
+  const performanceScore = clampScore(
+    (ctr ? Math.min(ctr, 8) * 8 : 0) +
+      (cpc ? Math.max(0, 25 - Math.min(cpc, 25)) : 0) +
+      (cpa ? Math.max(0, 35 - Math.min(cpa, 35)) : 0) +
+      (conversions ? Math.min(conversions, 20) * 1.4 : 0) +
+      (positiveResult ? 18 : 0) -
+      (negativeResult ? 22 : 0)
+  );
+  return {
+    niche: String(row.niche || row.nicho || "").toLowerCase(),
+    channel: String(row.channel || row.canal || "").toLowerCase(),
+    objective: String(row.objective || row.objetivo || "").toLowerCase(),
+    ctr,
+    cpc,
+    cpa,
+    conversions,
+    spend,
+    result,
+    performanceScore
+  };
+}
+
+function saveCalibrationRows(rows) {
+  state.calibrationRows = rows;
+  try {
+    localStorage.setItem("hydraCalibrationRows", JSON.stringify(rows));
+  } catch {
+    // Storage can be unavailable in restricted previews; calibration still works for this session.
+  }
+  renderCalibration();
+  if (state.aiAnalysis) {
+    state.aiAnalysis = applyCalibrationToAnalysis(state.aiAnalysis, creativeInput());
+    renderAiAnalysis(state.aiAnalysis);
+    $("reportOutput").innerHTML = generateReportHtml();
+  }
+}
+
+async function fetchCalibrationRows() {
+  $("calibrationOutput").innerHTML = "Carregando historico versionado do Git...";
+  try {
+    const response = await fetch("/api/calibration");
+    if (!response.ok) throw new Error(`API ${response.status}`);
+    const data = await response.json();
+    state.calibrationRows = Array.isArray(data.rows) ? data.rows : [];
+    renderCalibration(data);
+    if (state.aiAnalysis) {
+      state.aiAnalysis = applyCalibrationToAnalysis(state.aiAnalysis, creativeInput());
+      renderAiAnalysis(state.aiAnalysis);
+      $("reportOutput").innerHTML = generateReportHtml();
+    }
+  } catch (error) {
+    state.calibrationRows = [];
+    $("calibrationOutput").innerHTML = `Nao consegui carregar /api/calibration: ${escapeHtml(error.message)}. O Hydra vai usar apenas IA e simulacao.`;
+  }
+}
+
+function loadCalibrationRows() {
+  try {
+    state.calibrationRows = JSON.parse(localStorage.getItem("hydraCalibrationRows") || "[]");
+  } catch {
+    state.calibrationRows = [];
+  }
+  renderCalibration();
+}
+
+function matchCalibrationRows(input) {
+  const niche = input.niche.toLowerCase();
+  const channel = input.channel.toLowerCase();
+  const objective = input.objective.toLowerCase();
+  return state.calibrationRows.filter((row) => {
+    const nicheMatch = !row.niche || !niche || row.niche === niche;
+    const channelMatch = !row.channel || !channel || row.channel === channel;
+    const objectiveMatch = !row.objective || !objective || row.objective === objective;
+    return nicheMatch && channelMatch && objectiveMatch;
+  });
+}
+
+function getCalibrationInsight(input) {
+  const matched = matchCalibrationRows(input);
+  if (matched.length === 0) {
+    return {
+      sampleSize: 0,
+      confidence: "baixa",
+      benchmarkScore: null,
+      message: "Sem historico compativel. Recomendacao baseada em IA, regras e simulacao sintetica."
+    };
+  }
+  const avgPerformance = matched.reduce((sum, row) => sum + row.performanceScore, 0) / matched.length;
+  const confidence = matched.length >= 30 ? "alta" : matched.length >= 10 ? "media" : "baixa";
+  return {
+    sampleSize: matched.length,
+    confidence,
+    benchmarkScore: clampScore(avgPerformance),
+    message: `Comparado com ${matched.length} campanha(s) historica(s) compativeis. Benchmark medio: ${clampScore(avgPerformance)}/100.`
+  };
+}
+
+function applyCalibrationToAnalysis(analysis, input) {
+  const calibration = getCalibrationInsight(input);
+  if (!calibration.benchmarkScore && calibration.benchmarkScore !== 0) {
+    return { ...analysis, calibration };
+  }
+  const calibratedScore = clampScore(analysis.hydraScore * 0.72 + calibration.benchmarkScore * 0.28);
+  return {
+    ...analysis,
+    hydraScore: calibratedScore,
+    wasteRisk: clampScore(analysis.wasteRisk * 0.72 + (100 - calibration.benchmarkScore) * 0.28),
+    verdict: calibratedScore >= 78 ? "escalar" : calibratedScore >= 58 ? "testar" : "revisar",
+    calibration
+  };
+}
+
+function renderCalibration(apiData = null) {
+  const count = state.calibrationRows.length;
+  if (!count) {
+    const error = apiData?.error ? ` Erro: ${apiData.error}` : "";
+    $("calibrationOutput").innerHTML = `Sem historico carregado do Git.${escapeHtml(error)} O Hydra usa apenas diagnostico estrategico e simulacao sintetica.`;
+    return;
+  }
+  const avg = state.calibrationRows.reduce((sum, row) => sum + row.performanceScore, 0) / count;
+  $("calibrationOutput").innerHTML = `
+    <h3>Historico do Git carregado</h3>
+    <div class="aiScoreGrid">
+      <div><span>Campanhas</span><strong>${count}</strong></div>
+      <div><span>Benchmark</span><strong>${clampScore(avg)}</strong></div>
+      <div><span>Fonte</span><strong>${apiData?.source || "git"}</strong></div>
+    </div>
+    <p>Arquivo: <strong>data/campaign-history.csv</strong>. O Hydra compara novos criativos contra esse historico por nicho, canal e objetivo quando houver compatibilidade.</p>
+  `;
 }
 
 function heuristicCreativeAnalysis(input, fallbackReason = "Analise local do navegador acionada.") {
@@ -399,16 +631,243 @@ function applyCreativeAnalysis(raw) {
     improvedCta: raw.improvedCta || ""
   };
 
-  state.aiAnalysis = analysis;
+  state.aiAnalysis = applyCalibrationToAnalysis(analysis, creativeInput());
   $("rightPraise").value = analysis.offer / 100;
   $("contextQuality").value = analysis.clarity / 100;
   $("provocation").value = analysis.friction / 100;
   $("localRelevance").value = analysis.audienceFit / 100;
-  renderAiAnalysis(analysis);
+  renderAiAnalysis(state.aiAnalysis);
+  renderCommercialPanels();
+  saveAnalysisSnapshot();
+  $("reportOutput").innerHTML = generateReportHtml();
+}
+
+function budgetAmount(value) {
+  const parsed = parseNumber(value);
+  return parsed > 0 ? parsed : 300;
+}
+
+function money(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    maximumFractionDigits: 0
+  });
+}
+
+function commercialDecision(analysis = state.aiAnalysis, run = state.lastRun) {
+  if (!analysis) return null;
+  const input = creativeInput();
+  const planned = budgetAmount(input.plannedBudget);
+  const runWaste = run ? run.financialRisk * 100 : analysis.wasteRisk;
+  const rejectionRisk = run ? (run.negative / Math.max(run.positive + run.negative + run.neutral, 1)) * 100 : analysis.friction;
+  const financialScore = clampScore(
+    analysis.hydraScore * 0.42 +
+      (100 - analysis.wasteRisk) * 0.25 +
+      analysis.trust * 0.12 +
+      analysis.cta * 0.1 +
+      (100 - runWaste) * 0.11
+  );
+  const verdict = financialScore >= 78 ? "escalar" : financialScore >= 58 ? "testar" : "revisar";
+  const minPct = verdict === "escalar" ? 0.2 : verdict === "testar" ? 0.05 : 0;
+  const maxPct = verdict === "escalar" ? 0.35 : verdict === "testar" ? 0.15 : 0;
+  const predictedCtr = clamp(0.35 + analysis.attention * 0.025 + analysis.clarity * 0.012 + analysis.offer * 0.01 - analysis.friction * 0.012, 0.2, 5.8);
+  const predictedCpc = clamp(4.2 - analysis.clarity * 0.018 - analysis.cta * 0.012 + analysis.friction * 0.018, 0.45, 5.5);
+  const predictedCpa = clamp(predictedCpc * (18 - analysis.offer * 0.08 - analysis.trust * 0.05), 8, 180);
+
+  return {
+    financialScore,
+    verdict,
+    verdictView: verdictDisplay(verdict),
+    planned,
+    budgetMin: planned * minPct,
+    budgetMax: planned * maxPct,
+    days: verdict === "escalar" ? 5 : verdict === "testar" ? 3 : 0,
+    predictedCtr,
+    predictedCpc,
+    predictedCpa,
+    rejectionRisk: clampScore(rejectionRisk),
+    negativeCommentsRisk: clampScore(rejectionRisk * 0.72 + analysis.friction * 0.28),
+    saturationRisk: clampScore(analysis.attention * 0.22 + analysis.friction * 0.42 + (100 - analysis.offer) * 0.36),
+    wasteRisk: clampScore(runWaste),
+    killRule: verdict === "revisar"
+      ? "Nao comprar midia antes de corrigir oferta, clareza ou CTA."
+      : `Pausar se CTR ficar abaixo de ${Math.max(0.4, predictedCtr * 0.55).toFixed(2)}% ou CPC passar de R$ ${(predictedCpc * 1.55).toFixed(2)}.`,
+    scaleRule: verdict === "escalar"
+      ? `Escalar se CTR passar de ${Math.max(1, predictedCtr * 1.12).toFixed(2)}% e CPA ficar abaixo de R$ ${(predictedCpa * 0.9).toFixed(2)}.`
+      : "So escalar depois de uma versao A/B superar o criativo original por CTR, CPC e qualidade dos leads."
+  };
+}
+
+function creativeVariants(input = creativeInput(), analysis = state.aiAnalysis) {
+  const product = input.product || input.niche || "sua oferta";
+  const audience = input.audience || "publico certo";
+  const proof = input.proof || "prova social";
+  const guarantee = input.guarantee || "baixo risco";
+  return [
+    {
+      name: "A - Promessa direta",
+      angle: "clareza",
+      headline: analysis?.improvedHeadline || `${product}: resultado claro para ${audience}`,
+      body: analysis?.improvedBody || `Mostre o principal beneficio, explique para quem e e reduza a duvida antes do clique.`,
+      cta: analysis?.improvedCta || input.cta || "Chame no WhatsApp"
+    },
+    {
+      name: "B - Prova social",
+      angle: "confianca",
+      headline: `${proof}: veja por que ${product} funciona`,
+      body: `Use evidencia real, numeros ou depoimento. Conecte a prova com a objecao principal do publico.`,
+      cta: input.cta || "Quero ver os resultados"
+    },
+    {
+      name: "C - Dor urgente",
+      angle: "atencao",
+      headline: `Ainda enfrentando esse problema? ${product} pode encurtar o caminho`,
+      body: `Comece pela dor, mostre consequencia de adiar e apresente a solucao com uma acao simples.`,
+      cta: input.cta || "Resolver agora"
+    },
+    {
+      name: "D - Redutor de risco",
+      angle: "risco",
+      headline: `${product} com ${guarantee}`,
+      body: `Tire o medo da primeira acao. Explique como funciona, o que a pessoa recebe e por que o teste e seguro.`,
+      cta: input.cta || "Solicitar avaliacao"
+    }
+  ];
+}
+
+function testMatrix(input = creativeInput(), analysis = state.aiAnalysis) {
+  const decision = commercialDecision(analysis);
+  return creativeVariants(input, analysis).map((variant, index) => ({
+    ...variant,
+    audience: index === 0 ? input.stage || "Publico frio" : index === 1 ? "Publico morno / remarketing" : index === 2 ? "Publico frio com dor ativa" : "Publico inseguro",
+    budget: decision ? money(Math.max(decision.budgetMin / 4, decision.planned * 0.02)) : "-",
+    metric: index === 1 ? "CPC + comentarios qualificados" : index === 2 ? "CTR + taxa de conversa" : "CTR + CPA",
+    decision: "Manter apenas se superar o original ou reduzir risco de verba."
+  }));
+}
+
+function renderCommercialPanels() {
+  const decision = commercialDecision();
+  if (!decision) return;
+  $("commercialOutput").innerHTML = `
+    <div class="aiScoreGrid">
+      <div class="${decision.verdictView.boxClass}"><span>Status</span><strong class="${decision.verdictView.textClass}">${decision.verdictView.label}</strong></div>
+      <div><span>Score financeiro</span><strong>${decision.financialScore}</strong></div>
+      <div><span>Verba teste</span><strong>${decision.budgetMax ? `${money(decision.budgetMin)}-${money(decision.budgetMax)}` : "R$ 0"}</strong></div>
+      <div><span>Dias</span><strong>${decision.days || "-"}</strong></div>
+      <div><span>CTR previsto</span><strong>${decision.predictedCtr.toFixed(2)}%</strong></div>
+      <div><span>CPC previsto</span><strong>R$ ${decision.predictedCpc.toFixed(2)}</strong></div>
+      <div><span>CPA risco</span><strong>R$ ${decision.predictedCpa.toFixed(0)}</strong></div>
+      <div><span>Saturacao</span><strong>${decision.saturationRisk}/100</strong></div>
+    </div>
+    <p><strong>Corte:</strong> ${escapeHtml(decision.killRule)}</p>
+    <p><strong>Escala:</strong> ${escapeHtml(decision.scaleRule)}</p>
+  `;
+
+  $("testMatrixOutput").innerHTML = `
+    <table class="reportTable">
+      <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica</th></tr></thead>
+      <tbody>${testMatrix().map((row) => `
+        <tr>
+          <td>${escapeHtml(row.name)}</td>
+          <td>${escapeHtml(row.angle)}</td>
+          <td>${escapeHtml(row.audience)}</td>
+          <td>${escapeHtml(row.budget)}</td>
+          <td>${escapeHtml(row.metric)}</td>
+        </tr>
+      `).join("")}</tbody>
+    </table>
+    <h3>Versoes sugeridas</h3>
+    <ul>${creativeVariants().map((variant) => `<li><strong>${escapeHtml(variant.name)}:</strong> ${escapeHtml(variant.headline)} | CTA: ${escapeHtml(variant.cta)}</li>`).join("")}</ul>
+  `;
+}
+
+function saveAnalysisSnapshot() {
+  if (!state.aiAnalysis) return;
+  const decision = commercialDecision();
+  const input = creativeInput();
+  const item = {
+    id: Date.now(),
+    date: new Date().toLocaleString("pt-BR"),
+    campaign: input.campaign || input.headline || "Criativo sem nome",
+    niche: input.niche || "-",
+    score: state.aiAnalysis.hydraScore,
+    financialScore: decision?.financialScore ?? "-",
+    status: decision?.verdictView.label ?? verdictDisplay(state.aiAnalysis.verdict).label,
+    risk: state.aiAnalysis.wasteRisk
+  };
+  state.history = [item, ...state.history.filter((old) => old.campaign !== item.campaign)].slice(0, 20);
+  try {
+    localStorage.setItem("hydraHistory", JSON.stringify(state.history));
+  } catch {
+    // Historico local e opcional.
+  }
+  renderHistory();
+}
+
+function loadHistory() {
+  try {
+    state.history = JSON.parse(localStorage.getItem("hydraHistory") || "[]");
+  } catch {
+    state.history = [];
+  }
+  renderHistory();
+}
+
+function renderHistory() {
+  if (!state.history.length) {
+    $("historyOutput").innerHTML = "Nenhuma analise salva ainda.";
+    return;
+  }
+  $("historyOutput").innerHTML = `
+    <table class="reportTable">
+      <thead><tr><th>Data</th><th>Campanha</th><th>Nicho</th><th>Score</th><th>Financeiro</th><th>Status</th></tr></thead>
+      <tbody>${state.history.map((item) => `<tr><td>${escapeHtml(item.date)}</td><td>${escapeHtml(item.campaign)}</td><td>${escapeHtml(item.niche)}</td><td>${item.score}</td><td>${item.financialScore}</td><td>${escapeHtml(item.status)}</td></tr>`).join("")}</tbody>
+    </table>
+  `;
+}
+
+function compareActualResult() {
+  const decision = commercialDecision();
+  if (!decision) {
+    $("actualOutput").innerHTML = "Analise um criativo antes de comparar resultado real.";
+    return;
+  }
+  const actual = {
+    ctr: parseNumber($("actualCtr").value),
+    cpc: parseNumber($("actualCpc").value),
+    cpa: parseNumber($("actualCpa").value),
+    conversions: parseNumber($("actualConversions").value),
+    spend: parseNumber($("actualSpend").value),
+    negativeComments: parseNumber($("actualNegativeComments").value)
+  };
+  const ctrDelta = actual.ctr - decision.predictedCtr;
+  const cpcDelta = actual.cpc - decision.predictedCpc;
+  const cpaDelta = actual.cpa - decision.predictedCpa;
+  const quality = clampScore(
+    50 +
+      ctrDelta * 10 -
+      cpcDelta * 8 -
+      cpaDelta * 0.5 +
+      Math.min(actual.conversions, 20) * 1.5 -
+      actual.negativeComments * 2
+  );
+  state.actualComparison = { actual, quality, ctrDelta, cpcDelta, cpaDelta };
+  $("actualOutput").innerHTML = `
+    <div class="aiScoreGrid">
+      <div><span>Aderencia real</span><strong>${quality}</strong></div>
+      <div><span>CTR delta</span><strong>${ctrDelta.toFixed(2)}%</strong></div>
+      <div><span>CPC delta</span><strong>R$ ${cpcDelta.toFixed(2)}</strong></div>
+      <div><span>CPA delta</span><strong>R$ ${cpaDelta.toFixed(0)}</strong></div>
+    </div>
+    <p>${quality >= 70 ? "Resultado real acima do previsto: pode virar benchmark positivo no CSV." : quality >= 45 ? "Resultado misto: manter como dado de calibracao e revisar angulo vencedor." : "Resultado abaixo do previsto: registrar como campanha ruim e revisar promessa/oferta antes de novo teste."}</p>
+  `;
   $("reportOutput").innerHTML = generateReportHtml();
 }
 
 function renderAiAnalysis(analysis) {
+  const verdict = verdictDisplay(analysis.verdict);
   $("aiOutput").innerHTML = `
     <h3>Diagnostico Hydra</h3>
     <div class="aiScoreGrid">
@@ -421,12 +880,13 @@ function renderAiAnalysis(analysis) {
       <div><span>Atrito</span><strong>${analysis.friction}</strong></div>
       <div><span>Aderencia</span><strong>${analysis.audienceFit}</strong></div>
       <div><span>Risco verba</span><strong>${analysis.wasteRisk}</strong></div>
-      <div><span>Veredito</span><strong>${analysis.verdict.toUpperCase()}</strong></div>
+      <div class="${verdict.boxClass}"><span>Status</span><strong class="${verdict.textClass}">${verdict.label}</strong></div>
     </div>
     <p>${escapeHtml(analysis.diagnosis)}</p>
     ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
+    ${analysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(analysis.calibration.message)} Confianca: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
     <h3>${analysis.mainBottleneck === "entrada invalida" ? "Motivos da reprova" : "Melhorias sugeridas"}</h3>
     <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
     <h3>Plano de acao</h3>
@@ -720,6 +1180,8 @@ async function runMonteCarlo() {
   };
 
   renderResults();
+  renderCommercialPanels();
+  saveAnalysisSnapshot();
   setRunning(false);
 }
 
@@ -733,13 +1195,39 @@ function riskLabel(value) {
   return "escalar";
 }
 
+function verdictDisplay(verdict) {
+  if (verdict === "escalar") {
+    return {
+      label: "APROVADO",
+      textClass: "statusApproved",
+      boxClass: "statusBoxApproved"
+    };
+  }
+
+  if (verdict === "testar") {
+    return {
+      label: "REVISAO",
+      textClass: "statusReview",
+      boxClass: "statusBoxReview"
+    };
+  }
+
+  return {
+    label: "REPROVADO",
+    textClass: "statusRejected",
+    boxClass: "statusBoxRejected"
+  };
+}
+
 function renderResults() {
   const run = state.lastRun;
   const total = Math.max(run.positive + run.negative + run.neutral, 1);
+  const financialVerdict = verdictDisplay(riskLabel(run.financialRisk));
   $("avgReach").textContent = Math.round(run.avgReach).toLocaleString("pt-BR");
   $("negativeRate").textContent = pct(run.negative / total);
   $("crisisChance").textContent = pct(run.crisisChance);
-  $("financialRisk").textContent = riskLabel(run.financialRisk);
+  $("financialRisk").textContent = financialVerdict.label;
+  $("financialRisk").className = financialVerdict.textClass;
   $("networkSummary").textContent = `${state.agents.length} pessoas, ${edgeCount(state.graph).toLocaleString("pt-BR")} conexões`;
 
   renderBars([
@@ -773,18 +1261,23 @@ function ideologyLabel(agent) {
 }
 
 function renderProfiles() {
-  const sample = [...state.agents]
-    .sort((a, b) => b.influence - a.influence)
-    .slice(0, 8);
+  const topLimit = Math.min(Math.max(20, Math.ceil(state.agents.length * 0.06)), 60);
+  const influentialAgents = [...state.agents]
+    .sort((a, b) => {
+      const scoreA = a.influence + (state.graph[a.id]?.length ?? 0) / Math.max(state.agents.length, 1);
+      const scoreB = b.influence + (state.graph[b.id]?.length ?? 0) / Math.max(state.agents.length, 1);
+      return scoreB - scoreA;
+    })
+    .slice(0, topLimit);
 
-  $("profiles").innerHTML = sample
+  $("profiles").innerHTML = influentialAgents
     .map((agent) => {
       const [label, color] = ideologyLabel(agent);
       return `
         <article class="profile">
-          <strong>${agent.name}</strong>
-          <p>${agent.age} anos, ${agent.job}, ${agent.religion}, região ${agent.region}, ${agent.familySize} filho(s).</p>
-          <p>Interesses: ${agent.interests.join(", ")}.</p>
+          <strong>#${agent.id + 1} ${agent.name}</strong>
+          <p>${agent.age} anos, ${agent.job}, ${agent.religion}, regiao ${agent.region}, ${agent.familySize} filho(s).</p>
+          <p>Grau ${state.graph[agent.id]?.length ?? 0}, influencia ${fmt(agent.influence)}. Interesses: ${agent.interests.join(", ")}.</p>
           <span class="tag" style="background:${color}">${label}</span>
         </article>
       `;
@@ -991,6 +1484,21 @@ function rowsFromDistribution(distribution, total) {
     .join("");
 }
 
+function personaAppendixHtml() {
+  return state.agents
+    .map((agent) => {
+      const [label] = ideologyLabel(agent);
+      return `
+        <article>
+          <strong>#${agent.id + 1} ${escapeHtml(agent.name)}</strong>
+          <span>${agent.age} anos | ${escapeHtml(agent.job)} | ${escapeHtml(agent.religion)} | ${escapeHtml(agent.region)} | ${agent.familySize} filho(s)</span>
+          <span>${escapeHtml(agent.interests.join(", "))} | ${label}</span>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 function generateReportHtml() {
   const run = state.lastRun;
   if (!run) return "Rode uma simulação para gerar o relatório.";
@@ -1121,6 +1629,8 @@ function generateReportHtml() {
   const ignoredRate = run.neutral / totalReactions;
   const reachedShare = run.avgReach / Math.max(state.agents.length, 1);
   const verdict = riskLabel(run.financialRisk);
+  const verdictView = verdictDisplay(verdict);
+  const decision = commercialDecision(state.aiAnalysis, run);
   const timestamp = new Date().toLocaleString("pt-BR");
   const mediaGuidance = verdict === "escalar"
     ? "Criativo aprovado para teste com verba maior. Recomenda-se iniciar com campanha controlada e acompanhar CTR, CPC e comentarios negativos nas primeiras horas."
@@ -1135,14 +1645,14 @@ function generateReportHtml() {
         <p><strong>Criativo analisado:</strong> ${escapeHtml(run.article.title)}</p>
         <p><strong>Gerado em:</strong> ${timestamp}</p>
       </div>
-      <p>Simulacao de propagacao organica e resposta social antes de investir em trafego pago. O objetivo e reduzir desperdicio de verba, antecipar rejeicao e estimar se o criativo merece escala, teste pequeno ou revisao.</p>
+      <p>Simulacao de propagacao organica e resposta social antes de investir em trafego pago. O objetivo e reduzir desperdicio de verba, antecipar rejeicao e classificar o criativo como aprovado, em revisao ou reprovado.</p>
     </section>
 
     <section class="reportKpis">
       <div><span>Alcance organico medio</span><strong>${Math.round(run.avgReach).toLocaleString("pt-BR")}</strong></div>
       <div><span>Engajamento positivo</span><strong>${pct(engagementRate)}</strong></div>
       <div><span>Rejeicao</span><strong>${pct(rejectionRate)}</strong></div>
-      <div><span>Veredito</span><strong>${verdict.toUpperCase()}</strong></div>
+      <div class="${verdictView.boxClass}"><span>Status</span><strong class="${verdictView.textClass}">${verdictView.label}</strong></div>
     </section>
 
     ${state.aiAnalysis ? `
@@ -1158,6 +1668,7 @@ function generateReportHtml() {
       <p>${escapeHtml(state.aiAnalysis.diagnosis)}</p>
       <p><strong>Gargalo principal:</strong> ${escapeHtml(state.aiAnalysis.mainBottleneck || "-")}</p>
       <p><strong>Verba sugerida:</strong> ${escapeHtml(state.aiAnalysis.suggestedBudget || "-")}</p>
+      ${state.aiAnalysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(state.aiAnalysis.calibration.message)} Confianca: ${escapeHtml(state.aiAnalysis.calibration.confidence)}.</p>` : ""}
       <ul>${state.aiAnalysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
       <h2>Plano de Acao</h2>
       <ul>${state.aiAnalysis.actionPlan.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
@@ -1236,16 +1747,60 @@ function generateReportHtml() {
       ${network.hubs.map((hub) => `<li>${escapeHtml(hub.name)}: grau ${hub.degree}, influencia ${fmt(hub.influence)}</li>`).join("")}
     </ol>
 
-    <h2>9. Recomendacao de Midia</h2>
-    <section class="reportVerdict">
-      <p><strong>Veredito:</strong> ${verdict.toUpperCase()}.</p>
+    ${decision ? `
+      <h2>9. Plano de Teste Pago</h2>
+      <section class="reportSignal">
+        <div><strong>Score financeiro</strong><span>${decision.financialScore}/100</span></div>
+        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Nao investir"}</span></div>
+        <div><strong>Duracao</strong><span>${decision.days || 0} dia(s)</span></div>
+        <div><strong>CTR previsto</strong><span>${decision.predictedCtr.toFixed(2)}%</span></div>
+        <div><strong>CPC previsto</strong><span>R$ ${decision.predictedCpc.toFixed(2)}</span></div>
+        <div><strong>CPA risco</strong><span>R$ ${decision.predictedCpa.toFixed(0)}</span></div>
+      </section>
+      <p><strong>Regra de corte:</strong> ${escapeHtml(decision.killRule)}</p>
+      <p><strong>Regra de escala:</strong> ${escapeHtml(decision.scaleRule)}</p>
+
+      <h2>10. Matriz de Testes A/B</h2>
+      <table class="reportTable">
+        <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica principal</th></tr></thead>
+        <tbody>${testMatrix().map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.angle)}</td><td>${escapeHtml(row.audience)}</td><td>${escapeHtml(row.budget)}</td><td>${escapeHtml(row.metric)}</td></tr>`).join("")}</tbody>
+      </table>
+
+      <h2>11. Versoes Criativas Sugeridas</h2>
+      <table class="reportTable">
+        <thead><tr><th>Versao</th><th>Headline</th><th>CTA</th></tr></thead>
+        <tbody>${creativeVariants().map((variant) => `<tr><td>${escapeHtml(variant.name)}</td><td>${escapeHtml(variant.headline)}</td><td>${escapeHtml(variant.cta)}</td></tr>`).join("")}</tbody>
+      </table>
+    ` : ""}
+
+    ${state.actualComparison ? `
+      <h2>12. Comparacao Previsto vs Real</h2>
+      <section class="reportSignal">
+        <div><strong>Aderencia real</strong><span>${state.actualComparison.quality}/100</span></div>
+        <div><strong>CTR delta</strong><span>${state.actualComparison.ctrDelta.toFixed(2)}%</span></div>
+        <div><strong>CPC delta</strong><span>R$ ${state.actualComparison.cpcDelta.toFixed(2)}</span></div>
+      </section>
+    ` : ""}
+
+    <h2>13. Banco Sintetico de Personas</h2>
+    <p>Total listado: ${state.agents.length.toLocaleString("pt-BR")} personas. Cada item representa um no da rede usado na simulacao.</p>
+    <section class="personaAppendix">
+      ${personaAppendixHtml()}
+    </section>
+
+    <h2>14. Recomendacao de Midia</h2>
+    <section class="reportVerdict ${verdictView.boxClass}">
+      <p><strong>Status:</strong> <span class="${verdictView.textClass}">${verdictView.label}</span>.</p>
       <p>${mediaGuidance}</p>
     </section>
 
-    <h2>10. Interpretacao Tecnica</h2>
+    <h2>15. Interpretacao Tecnica</h2>
     <p>Um criativo tende a performar melhor quando combina oferta forte, mensagem clara e aderencia ao publico. Atrito alto pode aumentar propagacao por curiosidade ou controversia, mas tambem eleva rejeicao e risco de comentarios negativos. Se a indiferenca for alta, o problema provavel nao e rejeicao, mas falta de apelo ou promessa pouco compreensivel.</p>
 
-    <h2>11. Proximas Iteracoes Recomendadas</h2>
+    <h2>16. Aviso Legal e Uso Correto</h2>
+    <p>O Hydra e um sistema de pre-teste e apoio a decisao. Ele nao garante resultado de midia paga, nao substitui validacao real e deve ser usado para reduzir desperdicio, organizar hipoteses e definir criterios antes da compra de trafego.</p>
+
+    <h2>17. Proximas Iteracoes Recomendadas</h2>
     <ul>
       <li>Criar 3 variacoes A/B: uma com oferta mais direta, uma com headline mais clara e uma com menor atrito.</li>
       <li>Calibrar o modelo com CTR, CPC, CPM, comentarios negativos e taxa de conversao de campanhas reais.</li>
@@ -1259,6 +1814,8 @@ function generateAiOnlyReportHtml() {
   const analysis = state.aiAnalysis;
   const input = creativeInput();
   const timestamp = new Date().toLocaleString("pt-BR");
+  const verdictView = verdictDisplay(analysis.verdict);
+  const decision = commercialDecision(analysis);
   const mediaGuidance = analysis.verdict === "escalar"
     ? "O criativo tem bons sinais antes da compra de midia. Ainda assim, a recomendacao e validar com verba controlada e acompanhar os primeiros indicadores reais."
     : analysis.verdict === "testar"
@@ -1279,7 +1836,7 @@ function generateAiOnlyReportHtml() {
       <div><span>Hydra Score</span><strong>${analysis.hydraScore}</strong></div>
       <div><span>Atencao</span><strong>${analysis.attention}</strong></div>
       <div><span>Clareza</span><strong>${analysis.clarity}</strong></div>
-      <div><span>Veredito</span><strong>${analysis.verdict.toUpperCase()}</strong></div>
+      <div class="${verdictView.boxClass}"><span>Status</span><strong class="${verdictView.textClass}">${verdictView.label}</strong></div>
     </section>
 
     <section class="reportSignal">
@@ -1323,6 +1880,7 @@ function generateAiOnlyReportHtml() {
     ${analysis.source === "heuristic" && analysis.fallbackReason ? `<p><strong>Motivo do fallback:</strong> ${escapeHtml(analysis.fallbackReason)}</p>` : ""}
     <p><strong>Gargalo principal:</strong> ${escapeHtml(analysis.mainBottleneck || "-")}</p>
     <p><strong>Verba sugerida:</strong> ${escapeHtml(analysis.suggestedBudget || "-")}</p>
+    ${analysis.calibration ? `<p><strong>Calibracao:</strong> ${escapeHtml(analysis.calibration.message)} Confianca: ${escapeHtml(analysis.calibration.confidence)}.</p>` : ""}
 
     <h2>4. Melhorias Sugeridas</h2>
     <ul>${analysis.improvements.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
@@ -1340,12 +1898,50 @@ function generateAiOnlyReportHtml() {
     </table>
 
     <h2>7. Recomendacao Antes da Verba</h2>
-    <section class="reportVerdict">
-      <p><strong>Veredito:</strong> ${analysis.verdict.toUpperCase()}.</p>
+    <section class="reportVerdict ${verdictView.boxClass}">
+      <p><strong>Status:</strong> <span class="${verdictView.textClass}">${verdictView.label}</span>.</p>
       <p>${mediaGuidance}</p>
     </section>
 
-    <h2>8. Proxima Acao</h2>
+    ${decision ? `
+      <h2>8. Plano de Teste Pago</h2>
+      <section class="reportSignal">
+        <div><strong>Score financeiro</strong><span>${decision.financialScore}/100</span></div>
+        <div><strong>Verba inicial</strong><span>${decision.budgetMax ? `${money(decision.budgetMin)} a ${money(decision.budgetMax)}` : "Nao investir"}</span></div>
+        <div><strong>Duracao</strong><span>${decision.days || 0} dia(s)</span></div>
+        <div><strong>CTR previsto</strong><span>${decision.predictedCtr.toFixed(2)}%</span></div>
+        <div><strong>CPC previsto</strong><span>R$ ${decision.predictedCpc.toFixed(2)}</span></div>
+        <div><strong>CPA risco</strong><span>R$ ${decision.predictedCpa.toFixed(0)}</span></div>
+      </section>
+      <p><strong>Regra de corte:</strong> ${escapeHtml(decision.killRule)}</p>
+      <p><strong>Regra de escala:</strong> ${escapeHtml(decision.scaleRule)}</p>
+
+      <h2>9. Matriz de Testes A/B</h2>
+      <table class="reportTable">
+        <thead><tr><th>Teste</th><th>Angulo</th><th>Publico</th><th>Verba</th><th>Metrica principal</th></tr></thead>
+        <tbody>${testMatrix(input, analysis).map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.angle)}</td><td>${escapeHtml(row.audience)}</td><td>${escapeHtml(row.budget)}</td><td>${escapeHtml(row.metric)}</td></tr>`).join("")}</tbody>
+      </table>
+
+      <h2>10. Versoes Criativas Sugeridas</h2>
+      <table class="reportTable">
+        <thead><tr><th>Versao</th><th>Headline</th><th>CTA</th></tr></thead>
+        <tbody>${creativeVariants(input, analysis).map((variant) => `<tr><td>${escapeHtml(variant.name)}</td><td>${escapeHtml(variant.headline)}</td><td>${escapeHtml(variant.cta)}</td></tr>`).join("")}</tbody>
+      </table>
+    ` : ""}
+
+    ${state.actualComparison ? `
+      <h2>11. Comparacao Previsto vs Real</h2>
+      <section class="reportSignal">
+        <div><strong>Aderencia real</strong><span>${state.actualComparison.quality}/100</span></div>
+        <div><strong>CTR delta</strong><span>${state.actualComparison.ctrDelta.toFixed(2)}%</span></div>
+        <div><strong>CPC delta</strong><span>R$ ${state.actualComparison.cpcDelta.toFixed(2)}</span></div>
+      </section>
+    ` : ""}
+
+    <h2>12. Aviso Legal e Uso Correto</h2>
+    <p>O Hydra e um sistema de pre-teste e apoio a decisao. Ele nao garante resultado de midia paga, nao substitui validacao real e deve ser usado para reduzir desperdicio, organizar hipoteses e definir criterios antes da compra de trafego.</p>
+
+    <h2>13. Proxima Acao</h2>
     <p>Depois de ajustar o criativo, clique em Rodar para simular a propagacao sintetica e complementar este relatorio com alcance organico, rejeicao, indiferenca e risco de desperdicio.</p>
   `;
 }
@@ -1411,6 +2007,8 @@ function drawNetwork() {
 $("runButton").addEventListener("click", runMonteCarlo);
 $("rerollButton").addEventListener("click", runMonteCarlo);
 $("analyzeCreativeButton").addEventListener("click", analyzeCreativeWithHF);
+$("refreshCalibrationButton").addEventListener("click", fetchCalibrationRows);
+$("compareActualButton").addEventListener("click", compareActualResult);
 $("copyReportButton").addEventListener("click", async () => {
   const report = $("reportOutput").innerText || generateReport();
   if (navigator.clipboard) {
@@ -1423,4 +2021,6 @@ $("downloadReportButton").addEventListener("click", () => {
 window.addEventListener("resize", drawNetwork);
 updateProgress(0, Number($("runs").value));
 updateLiveStats(0, 0);
+loadHistory();
+fetchCalibrationRows();
 drawNetwork();

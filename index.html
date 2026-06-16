@@ -11,7 +11,13 @@
       <section class="panel controls" aria-label="Configuracao da simulacao">
         <div class="brand">
           <div>
-            <h1>Hydra | Strategy</h1>
+            <div class="logoLockup">
+              <svg class="hydraLogo" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 5c10 0 18 7 18 17 0 7-4 12-10 15 2 2 5 3 9 3 3 0 6 2 6 5 0 4-4 6-8 5-4-1-7-3-10-6v10c0 3-2 5-5 5s-5-2-5-5V44c-3 3-6 5-10 6-4 1-8-1-8-5 0-3 3-5 6-5 4 0 7-1 9-3-6-3-10-8-10-15C14 12 22 5 32 5Zm-7 16c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Zm14 0c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z" />
+                <path d="M21 41c-3 4-6 7-11 8M27 44c-1 5-4 9-8 12M43 41c3 4 6 7 11 8M37 44c1 5 4 9 8 12" />
+              </svg>
+              <h1>Hydra | Strategy</h1>
+            </div>
             <p>Pre-teste de criativos para trafego pago</p>
           </div>
           <button id="runButton" class="primary">Rodar</button>
@@ -223,6 +229,82 @@
           </div>
         </section>
 
+        <section class="panel commercialPanel" aria-label="Decisao comercial">
+          <div class="sectionTitle">
+            <h2>Decisao Comercial</h2>
+            <span>antes da verba</span>
+          </div>
+          <div id="commercialOutput" class="aiOutput">
+            Analise um criativo para gerar score financeiro, verba sugerida, criterio de corte e plano de midia.
+          </div>
+        </section>
+
+        <section class="panel testPanel" aria-label="Matriz de testes">
+          <div class="sectionTitle">
+            <h2>Matriz de Testes</h2>
+            <span>A/B antes de escalar</span>
+          </div>
+          <div id="testMatrixOutput" class="aiOutput">
+            A matriz aparece depois da analise com IA.
+          </div>
+        </section>
+
+        <section class="panel actualPanel" aria-label="Comparacao previsto versus real">
+          <div class="sectionTitle">
+            <h2>Previsto vs Real</h2>
+            <span>recalibracao operacional</span>
+          </div>
+          <div class="actualGrid">
+            <label>
+              CTR real (%)
+              <input id="actualCtr" type="number" min="0" step="0.01" placeholder="Ex: 1.8" />
+            </label>
+            <label>
+              CPC real (R$)
+              <input id="actualCpc" type="number" min="0" step="0.01" placeholder="Ex: 1.20" />
+            </label>
+            <label>
+              CPA real (R$)
+              <input id="actualCpa" type="number" min="0" step="0.01" placeholder="Ex: 28" />
+            </label>
+            <label>
+              Leads/Vendas
+              <input id="actualConversions" type="number" min="0" step="1" placeholder="Ex: 12" />
+            </label>
+            <label>
+              Verba gasta (R$)
+              <input id="actualSpend" type="number" min="0" step="0.01" placeholder="Ex: 300" />
+            </label>
+            <label>
+              Comentarios negativos
+              <input id="actualNegativeComments" type="number" min="0" step="1" placeholder="Ex: 3" />
+            </label>
+          </div>
+          <button id="compareActualButton" class="ghost" type="button">Comparar resultado real</button>
+          <div id="actualOutput" class="aiOutput">Depois do teste real, informe os numeros para comparar com a previsao do Hydra.</div>
+        </section>
+
+        <section class="panel historyPanel" aria-label="Historico de analises">
+          <div class="sectionTitle">
+            <h2>Historico Local</h2>
+            <span>ultimas decisoes</span>
+          </div>
+          <div id="historyOutput" class="aiOutput">Nenhuma analise salva ainda.</div>
+        </section>
+
+        <section class="panel calibrationPanel" aria-label="Calibracao com dados reais">
+          <div class="sectionTitle">
+            <h2>Calibracao Real</h2>
+            <span>historico versionado no Git</span>
+          </div>
+          <div class="calibrationActions">
+            <button id="refreshCalibrationButton" class="ghost" type="button">Recarregar historico</button>
+          </div>
+          <div id="calibrationOutput" class="aiOutput">
+            Carregando historico de campanhas do repositorio...
+          </div>
+        </section>
+
         <section class="panel canvasPanel" aria-label="Rede simulada">
           <div class="sectionTitle">
             <h2>Rede e Propagacao</h2>
@@ -260,7 +342,7 @@
 
           <section class="panel">
             <div class="sectionTitle">
-              <h2>Amostra de Perfis</h2>
+              <h2>Influenciadores</h2>
               <button id="rerollButton" class="ghost">Rodizio</button>
             </div>
             <div id="profiles" class="profiles"></div>
