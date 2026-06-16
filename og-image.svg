@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Hydra | Strategy</title>
+  <desc id="desc">Pre-teste de criativos para trafego pago com simulacao, IA e decisao comercial.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    </pattern>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="#000"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.75"/>
+  <path d="M0 90H1200M0 540H1200M110 0V630M1090 0V630" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+
+  <g transform="translate(86 74)">
+    <g transform="scale(2.05)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path fill="#fff" stroke="#fff" d="M32 5c10 0 18 7 18 17 0 7-4 12-10 15 2 2 5 3 9 3 3 0 6 2 6 5 0 4-4 6-8 5-4-1-7-3-10-6v10c0 3-2 5-5 5s-5-2-5-5V44c-3 3-6 5-10 6-4 1-8-1-8-5 0-3 3-5 6-5 4 0 7-1 9-3-6-3-10-8-10-15C14 12 22 5 32 5Zm-7 16c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Zm14 0c-2 0-4 2-4 4s2 4 4 4 4-2 4-4-2-4-4-4Z"/>
+      <path d="M21 41c-3 4-6 7-11 8M27 44c-1 5-4 9-8 12M43 41c3 4 6 7 11 8M37 44c1 5 4 9 8 12"/>
+    </g>
+  </g>
+
+  <text x="246" y="128" fill="#fff" font-family="Courier New, monospace" font-size="54" font-weight="800" letter-spacing="3">HYDRA | STRATEGY</text>
+  <text x="250" y="174" fill="#a7a7a7" font-family="Courier New, monospace" font-size="22" letter-spacing="1.2">PRE-TESTE DE CRIATIVOS PARA TRAFEGO PAGO</text>
+
+  <g transform="translate(86 244)">
+    <rect x="0" y="0" width="1028" height="214" fill="rgba(255,255,255,0.035)" stroke="rgba(255,255,255,0.28)"/>
+    <text x="34" y="54" fill="#fff" font-family="Courier New, monospace" font-size="27" font-weight="800">DECISAO ANTES DA VERBA</text>
+    <text x="34" y="96" fill="#d8d8d8" font-family="Courier New, monospace" font-size="24">IA + BARABASI-ALBERT + INDEPENDENT CASCADE</text>
+    <text x="34" y="137" fill="#a7a7a7" font-family="Courier New, monospace" font-size="21">Score financeiro, matriz A/B, simulacao de propagacao e relatorio tecnico.</text>
+
+    <g transform="translate(34 166)" font-family="Courier New, monospace" font-size="19" font-weight="800">
+      <rect x="0" y="-24" width="154" height="42" fill="none" stroke="#28ff72"/>
+      <text x="16" y="4" fill="#28ff72" filter="url(#softGlow)">APROVADO</text>
+      <rect x="184" y="-24" width="142" height="42" fill="none" stroke="#ffd447"/>
+      <text x="202" y="4" fill="#ffd447" filter="url(#softGlow)">REVISAO</text>
+      <rect x="356" y="-24" width="166" height="42" fill="none" stroke="#ff3b3b"/>
+      <text x="374" y="4" fill="#ff3b3b" filter="url(#softGlow)">REPROVADO</text>
+    </g>
+  </g>
+
+  <g transform="translate(86 510)" font-family="Courier New, monospace">
+    <text x="0" y="0" fill="#fff" font-size="20" font-weight="800">OPERADOR COMERCIAL</text>
+    <text x="0" y="34" fill="#a7a7a7" font-size="18">Antecipe risco, corte desperdicio e teste com verba controlada.</text>
+    <text x="820" y="34" fill="#fff" font-size="18" text-anchor="end">hydra strategy</text>
+  </g>
+</svg>

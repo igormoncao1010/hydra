@@ -80,6 +80,15 @@ HF_MODEL=openai/gpt-oss-120b:cerebras
 
 Clique em `Rodar` para gerar uma nova populacao, uma nova rede e uma nova simulacao.
 
+## Imagem de compartilhamento
+
+O projeto inclui:
+
+- `og-image.png`: imagem usada nas tags Open Graph e Twitter Card.
+- `og-image.svg`: versao editavel do layout.
+
+As tags ficam no `index.html`. Se trocar para dominio proprio, a Vercel normalmente resolve `/og-image.png`; se algum validador exigir URL absoluta, substitua pelo dominio final.
+
 Durante a execucao, o painel da rede mostra uma cascata observavel em tempo real:
 
 - nos engajados aparecem coloridos por resposta;
